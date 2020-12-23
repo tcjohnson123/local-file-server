@@ -12,7 +12,7 @@ namespace net
     public:
         std::unique_ptr<RequestHandler> createRequestHandler() override
         {
-            return std::make_unique<FileRequestHandler>();
+            return std::make_unique<FileServer>();
         }
     };
 }

@@ -9,11 +9,11 @@ namespace net
 {
     class StreamWriter;
 
-    class FileRequestHandler : public RequestHandler
+    class FileServer : public RequestHandler
     {
     public:
-        FileRequestHandler();
-        virtual ~FileRequestHandler();
+        FileServer();
+        virtual ~FileServer();
 
         void handleRequest(const HttpRequest& request) override;
 

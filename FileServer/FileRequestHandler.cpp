@@ -9,16 +9,16 @@
 #include <fstream>
 #include <ios>
 
-net::FileRequestHandler::FileRequestHandler()
+net::FileServer::FileServer()
 {
 }
 
-net::FileRequestHandler::~FileRequestHandler()
+net::FileServer::~FileServer()
 {
     // Empty destructor prevents error about deletion of incomplete type. 
 }
 
-void net::FileRequestHandler::handleRequest(const HttpRequest& request)
+void net::FileServer::handleRequest(const HttpRequest& request)
 {
     _streamWriter = std::make_unique<StreamWriter>(request.stream());
     std::string uri = std::string(".") + request.uri();
@@ -35,7 +35,7 @@ void net::FileRequestHandler::handleRequest(const HttpRequest& request)
     }
 }
 
-std::string net::FileRequestHandler::mimeType(const std::filesystem::path& path)
+std::string net::FileServer::mimeType(const std::filesystem::path& path)
 {
     auto ext = StringUtils::toLower(path.extension().u8string());
     if (ext == ".htm")    return "text/html";
@@ -67,12 +67,12 @@ std::string net::FileRequestHandler::mimeType(const std::filesystem::path& path)
     return "application/text";
 }
 
-void net::FileRequestHandler::serveString(std::string_view status, std::string_view body)
+void net::FileServer::serveString(std::string_view status, std::string_view body)
 {
     return serveString(status, body, {});
 }
 
-void net::FileRequestHandler::serveString(std::string_view status, std::string_view body, const std::list<std::string>& extraHeaders)
+void net::FileServer::serveString(std::string_view status, std::string_view body, const std::list<std::string>& extraHeaders)
 {
     std::stringstream ss;
     ss << "HTTP/1.1 " << status << "\r\n";
@@ -88,17 +88,17 @@ void net::FileRequestHandler::serveString(std::string_view status, std::string_v
     _streamWriter->write(body);
 }
 
-void net::FileRequestHandler::serve404NotFound()
+void net::FileServer::serve404NotFound()
 {
     serveString("404 Not Found", "<h1>404 File not found.</h1>\n");
 }
 
-void net::FileRequestHandler::serve401Unauthorized()
+void net::FileServer::serve401Unauthorized()
 {
     serveString("401 Unauthorized", "", {"WWW-Authenticate: Basic realm=\"File Server\", charset=\"UTF-8\""});
 }
 
-void net::FileRequestHandler::serveFile(const std::filesystem::path& path)
+void net::FileServer::serveFile(const std::filesystem::path& path)
 {
     std::string mediaType = mimeType(path.u8string().c_str());
     std::ifstream fs;
@@ -133,7 +133,7 @@ void net::FileRequestHandler::serveFile(const std::filesystem::path& path)
     }
 }
 
-void net::FileRequestHandler::serveDirectory(const std::filesystem::path& path)
+void net::FileServer::serveDirectory(const std::filesystem::path& path)
 {
     std::stringstream body;
     body << "<!DOCTYPE html><html><head><title>Directory listing</title></head>\n";
