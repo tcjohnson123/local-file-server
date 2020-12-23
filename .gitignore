@@ -1,32 +1,29 @@
-# Prerequisites
-*.d
-
-# Compiled Object files
-*.slo
-*.lo
-*.o
 *.obj
-
-# Precompiled Headers
-*.gch
+*.tlog
+*.pdb
 *.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
+*.FileListAbsolute.txt
+*.idb
+*.VC.db
+*.suo
 *.exe
-*.out
-*.app
+*.lib
+*.tli
+*.tlh
+*.log
+Debug/
+Release/
+obj/
+.vs/
+*.vcxproj.user
+*.vcxproj.vspscc
+*.csproj.user
+*.csproj.vspscc
+*adhoc.cpp.copied
+*.js.map
+*_i.c
+*_p.c
+*_i.h
+*.aps
+*/packages/*
+dotnet-tools.json
