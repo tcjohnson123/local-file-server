@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Socket.h"
-#include "FileRequestHandler.h"
+#include "FileServer.h"
 #include "RequestHandlerFactory.h"
 #include "WebServer.h"
 #include <iostream>

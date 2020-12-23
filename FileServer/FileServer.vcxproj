@@ -156,7 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="FileRequestHandler.cpp" />
+    <ClCompile Include="FileServer.cpp" />
     <ClCompile Include="HttpRequest.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="pch.cpp">
@@ -172,7 +172,7 @@
     <ClCompile Include="win32\Socket.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FileRequestHandler.h" />
+    <ClInclude Include="FileServer.h" />
     <ClInclude Include="HttpRequest.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Property.h" />

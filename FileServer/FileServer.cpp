@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include "FileRequestHandler.h"
+#include "FileServer.h"
 #include "HttpRequest.h"
 #include "StreamWriter.h"
 #include "StringUtils.h"
