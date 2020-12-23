@@ -190,10 +190,9 @@ std::string net::StringUtils::base64_decode(std::string_view msg)
     BitStream stream;
     for (auto ch : msg)
     {
-        if (ch == '=') break;
         auto pos = strchr(alphabet, ch);
         if (pos != nullptr)
-            stream.addBits(pos - alphabet, 6);
+            stream.addBits((uint8_t)(pos - alphabet), 6);
     }
     return stream.bytes.str();
 }

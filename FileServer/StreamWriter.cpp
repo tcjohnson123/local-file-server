@@ -24,5 +24,5 @@ bool net::StreamWriter::write(const char* buff, int length)
 
 bool net::StreamWriter::write(std::string_view str)
 {
-    return write(str.data(), str.length());
+    return write(str.data(), (int) str.length());
 }
