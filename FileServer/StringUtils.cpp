@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "StringUtils.h"
 #include <sstream>
+#include <random>
 #include <string.h>
 
 std::string net::StringUtils::toLower(std::string_view stringView)
@@ -221,4 +222,17 @@ std::pair<std::string_view, std::string_view> net::StringUtils::splitAtFirstOf(s
         return std::make_pair(str.substr(0, pos), str.substr(pos + 1, n - 1));
     else
         return std::make_pair(str.substr(0, pos), str.substr(0, 0));
+}
+
+std::string net::StringUtils::randomString(int length)
+{
+    const std::string alphabet = "0123456789ABCDEF";
+    std::random_device random_device;
+    std::mt19937 generator(random_device());
+    std::uniform_int_distribution<> distribution(0, alphabet.size() - 1);
+    std::string result(length, ' ');
+    for (auto& ch : result)
+        ch = alphabet[distribution(generator)];
+
+    return result;
 }
