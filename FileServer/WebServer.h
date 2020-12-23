@@ -2,15 +2,15 @@
 
 namespace net
 {
-	class RequestHandlerFactory;
+	class RequestHandler;
 
 	class WebServer
 	{
 	public:
-		WebServer(RequestHandlerFactory& factory);
+		WebServer(RequestHandler& handler);
 		bool start();
 
 	private:
-		RequestHandlerFactory& _factory;
+		RequestHandler& _handler;
 	};
 }

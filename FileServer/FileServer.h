@@ -9,13 +9,13 @@ namespace net
 {
     class StreamWriter;
 
-    class FileServer : public RequestHandler
+    class FileServer
     {
     public:
         FileServer();
         virtual ~FileServer();
 
-        void handleRequest(const HttpRequest& request) override;
+        void handleRequest(const HttpRequest& request);
 
     private:
         static std::string mimeType(const std::filesystem::path& path);

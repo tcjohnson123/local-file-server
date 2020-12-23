@@ -1,18 +1,19 @@
 #include "pch.h"
 #include "Socket.h"
 #include "FileServer.h"
-#include "RequestHandlerFactory.h"
+#include "RequestHandler.h"
 #include "WebServer.h"
 #include <iostream>
 
 namespace net
 {
-    class FileRequestHandlerFactory : public RequestHandlerFactory
+    class FileRequestHandler : public RequestHandler
     {
     public:
-        std::unique_ptr<RequestHandler> createRequestHandler() override
+        void handleRequest(const HttpRequest& request) override
         {
-            return std::make_unique<FileServer>();
+            FileServer fileServer;
+            fileServer.handleRequest(request);
         }
     };
 }
@@ -20,8 +21,8 @@ namespace net
 int main(void)
 {
     Socket::startUp();
-    net::FileRequestHandlerFactory factory;
-    net::WebServer webServer(factory);
+    net::FileRequestHandler handler;
+    net::WebServer webServer(handler);
     webServer.start();
     Socket::shutDown();
     return 0;

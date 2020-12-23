@@ -1,7 +1,6 @@
 #include "pch.h"
 
 #include "WebServer.h"
-#include "RequestHandlerFactory.h"
 #include "Socket.h"
 #include "StreamWriter.h"
 #include "HttpRequest.h"
@@ -9,11 +8,10 @@
 #include <iostream>
 #include <thread>
 
-static void clientThreadFn(Socket socket, const std::string& clientIP, net::RequestHandlerFactory& factory)
+static void clientThreadFn(Socket socket, const std::string& clientIP, net::RequestHandler& handler)
 {
     net::HttpRequest request(&socket, clientIP.c_str());
-    auto requestHandler = factory.createRequestHandler();
-    requestHandler->handleRequest(request);
+    handler.handleRequest(request);
 
     // Force the client to close the connection
     char dummy[256];
@@ -22,7 +20,7 @@ static void clientThreadFn(Socket socket, const std::string& clientIP, net::Requ
     socket.close();
 }
 
-net::WebServer::WebServer(RequestHandlerFactory& factory) : _factory(factory)
+net::WebServer::WebServer(RequestHandler& handler) : _handler(handler)
 {
 }
 
@@ -42,7 +40,7 @@ bool net::WebServer::start()
         }
 
         std::thread clientThread(
-            [=]() {clientThreadFn(client, clientIP, _factory);}
+            [=]() {clientThreadFn(client, clientIP, _handler);}
         );
         clientThread.detach();
     }
