@@ -18,4 +18,6 @@ file(GLOB SOURCES "*.cpp" "linux/*.cpp")
  
 add_executable(FileServer ${SOURCES})
 
-target_link_libraries(${PROJECT_NAME} stdc++fs)
+if (NOT MSVC)
+  target_link_libraries(${PROJECT_NAME} stdc++fs pthread)
+endif()
