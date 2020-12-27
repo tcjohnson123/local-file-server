@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <filesystem>
+#include <fstream>
 #include <map>
 
 namespace net
@@ -8,14 +10,16 @@ namespace net
     class UploadedFile
     {
     public:
-        std::string tempName;
-        std::string fileName;
+        std::filesystem::path tempName;
+        std::filesystem::path fileName;
     };
 
     class MultipartPostData
     {
     public:
         MultipartPostData(const std::string& boundary);
+        MultipartPostData(const MultipartPostData& other) = delete;
+        MultipartPostData& operator=(const MultipartPostData& rhs) = delete;
         virtual ~MultipartPostData();
 
         void processChar(char ch);
@@ -36,7 +40,7 @@ namespace net
         std::string _boundary;
         bool _isFile;
         std::string _name;
-        FILE* _fp;
+        std::ofstream _fs;
         int _numWrites;
     };
 }

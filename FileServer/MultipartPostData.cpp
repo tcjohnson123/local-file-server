@@ -14,14 +14,13 @@ net::MultipartPostData::MultipartPostData(const std::string& boundary)
     _isFile = false;
     _chunk[0] = 0;
     _chunkSize = sizeof(_chunk);
-    _fp = NULL;
     _numWrites = 0;
 }
 
 net::MultipartPostData::~MultipartPostData()
 {
-    if (_fp)
-        fclose(_fp);
+    if (_fs.is_open())
+        _fs.close();
 }
 
 void net::MultipartPostData::processChar(char ch)
@@ -87,10 +86,10 @@ void net::MultipartPostData::processChunk(char* chunk, int size)
                     _isFile = true;
                     UploadedFile uploadedFile;
                     uploadedFile.fileName = it->value;
-                    uploadedFile.tempName = SysTempPath() + it->value;
+                    uploadedFile.tempName = std::filesystem::temp_directory_path() / it->value;
                     files[_name] = uploadedFile;
                     _numWrites = 0;
-                    _fp = fopen(uploadedFile.tempName.c_str(), "wb");
+                    _fs.open(uploadedFile.tempName, std::ios_base::binary);
                 }
             }
         }
@@ -100,10 +99,9 @@ void net::MultipartPostData::processChunk(char* chunk, int size)
         if (isBoundary(chunk, size))
         {
             _isFile = false;
-            if (_fp)
+            if (_fs)
             {
-                fclose(_fp);
-                _fp = NULL;
+                _fs.close();
             }
             _state = 1;
         }
@@ -111,12 +109,12 @@ void net::MultipartPostData::processChunk(char* chunk, int size)
         {
             if (_isFile)
             {
-                if (_fp)
+                if (_fs)
                 {
                     if (_numWrites++ == 0)
-                        fwrite(chunk + 2, 1, size - 2, _fp);
+                        _fs.write(chunk + 2, size - 2);
                     else
-                        fwrite(chunk, 1, size, _fp);
+                        _fs.write(chunk, size);
                 }
             }
             else if (size > 2)
