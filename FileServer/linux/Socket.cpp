@@ -27,6 +27,7 @@ bool Socket::valid() const
 
 bool Socket::startUp()
 {
+    return true;
 }
 
 void Socket::shutDown()
