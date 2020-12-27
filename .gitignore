@@ -27,3 +27,8 @@ obj/
 *.aps
 */packages/*
 dotnet-tools.json
+CMakeFiles/
+Makefile
+cmake_install.cmake
+CMakeCache.txt
+
