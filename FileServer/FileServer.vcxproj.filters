@@ -42,6 +42,9 @@
     <ClCompile Include="FileServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MultipartPostData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Socket.h">
@@ -75,6 +78,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FileServer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MultipartPostData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
