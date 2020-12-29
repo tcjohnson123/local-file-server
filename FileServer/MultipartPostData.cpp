@@ -33,9 +33,9 @@ void net::MultipartPostData::processChar(char ch)
     _chunk[_index++] = ch;
 }
 
-bool net::MultipartPostData::isBoundary(char* chunk, int size)
+bool net::MultipartPostData::isBoundary(char* chunk, size_t size)
 {
-    int boundaryLength = (int)_boundary.length();
+    auto boundaryLength = _boundary.length();
     if (size == boundaryLength + 2)
     {
         if (strncmp(&chunk[2], _boundary.c_str(), size - 2) == 0)
@@ -54,7 +54,7 @@ bool net::MultipartPostData::isBoundary(char* chunk, int size)
     return false;
 }
 
-void net::MultipartPostData::processChunk(char* chunk, int size)
+void net::MultipartPostData::processChunk(char* chunk, size_t size)
 {
     if (_state == 0) // Waiting for boundary
     {

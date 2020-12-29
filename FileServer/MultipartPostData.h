@@ -25,8 +25,8 @@ namespace net
         void processChar(char ch);
 
     private:
-        void processChunk(char* chunk, int size);
-        bool isBoundary(char* chunk, int size);
+        void processChunk(char* chunk, size_t size);
+        bool isBoundary(char* chunk, size_t size);
 
     public:
         std::map<std::string, std::string> data;
