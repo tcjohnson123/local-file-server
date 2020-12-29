@@ -17,7 +17,7 @@ namespace net
     class MultipartPostData
     {
     public:
-        MultipartPostData(const std::string& boundary);
+        MultipartPostData(std::string_view boundary);
         MultipartPostData(const MultipartPostData& other) = delete;
         MultipartPostData& operator=(const MultipartPostData& rhs) = delete;
         virtual ~MultipartPostData();

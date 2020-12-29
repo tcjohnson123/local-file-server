@@ -6,7 +6,7 @@
 #include <list>
 #include <string.h>
 
-net::MultipartPostData::MultipartPostData(const std::string& boundary)
+net::MultipartPostData::MultipartPostData(std::string_view boundary)
 {
     _boundary = boundary;
     _index = 0;
