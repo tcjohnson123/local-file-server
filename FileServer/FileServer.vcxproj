@@ -185,6 +185,7 @@
     <ClInclude Include="StreamReader.h" />
     <ClInclude Include="StreamWriter.h" />
     <ClInclude Include="StringUtils.h" />
+    <ClInclude Include="UploadedFile.h" />
     <ClInclude Include="WebServer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

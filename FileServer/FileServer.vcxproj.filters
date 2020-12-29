@@ -86,5 +86,8 @@
     <ClInclude Include="MultipartPostDataParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="UploadedFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
