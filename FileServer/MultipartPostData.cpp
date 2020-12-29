@@ -75,18 +75,18 @@ void net::MultipartPostData::processChunk(char* chunk, size_t size)
             std::string header(chunk + 2, size - 2);
             std::list<Property> props;
             StringUtils::parseNameValuePairs(props, header.c_str(), ';');
-            for (std::list<Property>::iterator it = props.begin(); it != props.end(); ++it)
+            for (const auto& prop : props)
             {
-                if (it->name == "name")
+                if (prop.name == "name")
                 {
-                    _name = it->value;
+                    _name = prop.value;
                 }
-                else if (it->name == "filename")
+                else if (prop.name == "filename")
                 {
                     _isFile = true;
                     UploadedFile uploadedFile;
-                    uploadedFile.fileName = it->value;
-                    uploadedFile.tempName = std::filesystem::temp_directory_path() / it->value;
+                    uploadedFile.fileName = prop.value;
+                    uploadedFile.tempName = std::filesystem::temp_directory_path() / prop.value;
                     files[_name] = uploadedFile;
                     _numWrites = 0;
                     _fs.open(uploadedFile.tempName, std::ios_base::binary);
