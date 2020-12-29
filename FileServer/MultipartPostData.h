@@ -1,5 +1,6 @@
 #pragma once
 
+#include "UploadedFile.h"
 #include <string>
 #include <filesystem>
 #include <fstream>
@@ -7,17 +8,12 @@
 
 namespace net
 {
-    class UploadedFile
-    {
-    public:
-        std::filesystem::path tempName;
-        std::filesystem::path fileName;
-    };
+    class PostDataHandler;
 
     class MultipartPostData
     {
     public:
-        MultipartPostData(std::string_view boundary);
+        MultipartPostData(PostDataHandler* handler, std::string_view boundary);
         MultipartPostData(const MultipartPostData& other) = delete;
         MultipartPostData& operator=(const MultipartPostData& rhs) = delete;
         virtual ~MultipartPostData();
@@ -28,11 +24,9 @@ namespace net
         void processChunk(char* chunk, size_t size);
         bool isBoundary(char* chunk, size_t size);
 
-    public:
-        std::map<std::string, std::string> data;
-        std::map<std::string, UploadedFile> files;
-
     private:
+        PostDataHandler* _handler;
+        UploadedFile _uploadedFile;
         char _chunk[256];
         int _chunkSize;
         int _index;

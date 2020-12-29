@@ -83,5 +83,8 @@
     <ClInclude Include="MultipartPostData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PostDataHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -177,6 +177,7 @@
     <ClInclude Include="HttpRequest.h" />
     <ClInclude Include="MultipartPostData.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PostDataHandler.h" />
     <ClInclude Include="Property.h" />
     <ClInclude Include="RequestHandler.h" />
     <ClInclude Include="Socket.h" />

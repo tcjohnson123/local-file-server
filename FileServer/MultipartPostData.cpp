@@ -2,12 +2,14 @@
 #include "MultipartPostData.h"
 #include "Property.h"
 #include "StringUtils.h"
+#include "PostDataHandler.h"
 #include <string>
 #include <list>
 #include <string.h>
 
-net::MultipartPostData::MultipartPostData(std::string_view boundary)
+net::MultipartPostData::MultipartPostData(PostDataHandler* handler, std::string_view boundary)
 {
+    _handler = handler;
     _boundary = boundary;
     _index = 0;
     _state = 0;
@@ -20,7 +22,10 @@ net::MultipartPostData::MultipartPostData(std::string_view boundary)
 net::MultipartPostData::~MultipartPostData()
 {
     if (_fs.is_open())
+    {
+        _handler->addUploadedFile(_uploadedFile);
         _fs.close();
+    }
 }
 
 void net::MultipartPostData::processChar(char ch)
@@ -84,12 +89,10 @@ void net::MultipartPostData::processChunk(char* chunk, size_t size)
                 else if (prop.name == "filename")
                 {
                     _isFile = true;
-                    UploadedFile uploadedFile;
-                    uploadedFile.fileName = prop.value;
-                    uploadedFile.tempName = std::filesystem::temp_directory_path() / prop.value;
-                    files[_name] = uploadedFile;
+                    _uploadedFile.fileName = prop.value;
+                    _uploadedFile.tempName = std::filesystem::temp_directory_path() / prop.value;
                     _numWrites = 0;
-                    _fs.open(uploadedFile.tempName, std::ios_base::binary);
+                    _fs.open(_uploadedFile.tempName, std::ios_base::binary);
                 }
             }
         }
@@ -101,6 +104,7 @@ void net::MultipartPostData::processChunk(char* chunk, size_t size)
             _isFile = false;
             if (_fs)
             {
+                _handler->addUploadedFile(_uploadedFile);
                 _fs.close();
             }
             _state = 1;
@@ -120,7 +124,7 @@ void net::MultipartPostData::processChunk(char* chunk, size_t size)
             else if (size > 2)
             {
                 std::string value(chunk + 2, size - 2);
-                data[_name] = value;
+                _handler->addDataPair(_name, value);
             }
         }
     }
