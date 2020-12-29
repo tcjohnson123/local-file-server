@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "MultipartPostData.h"
+#include "MultipartPostDataParser.h"
 #include "Property.h"
 #include "StringUtils.h"
 #include "PostDataHandler.h"
@@ -7,7 +7,7 @@
 #include <list>
 #include <string.h>
 
-net::MultipartPostData::MultipartPostData(PostDataHandler* handler, std::string_view boundary)
+net::MultipartPostDataParser::MultipartPostDataParser(PostDataHandler* handler, std::string_view boundary)
 {
     _handler = handler;
     _boundary = boundary;
@@ -19,7 +19,7 @@ net::MultipartPostData::MultipartPostData(PostDataHandler* handler, std::string_
     _numWrites = 0;
 }
 
-net::MultipartPostData::~MultipartPostData()
+net::MultipartPostDataParser::~MultipartPostDataParser()
 {
     if (_fs.is_open())
     {
@@ -28,7 +28,7 @@ net::MultipartPostData::~MultipartPostData()
     }
 }
 
-void net::MultipartPostData::processChar(char ch)
+void net::MultipartPostDataParser::processChar(char ch)
 {
     if (ch == 13 || _index >= _chunkSize)
     {
@@ -38,7 +38,7 @@ void net::MultipartPostData::processChar(char ch)
     _chunk[_index++] = ch;
 }
 
-bool net::MultipartPostData::isBoundary(char* chunk, size_t size)
+bool net::MultipartPostDataParser::isBoundary(char* chunk, size_t size)
 {
     auto boundaryLength = _boundary.length();
     if (size == boundaryLength + 2)
@@ -59,7 +59,7 @@ bool net::MultipartPostData::isBoundary(char* chunk, size_t size)
     return false;
 }
 
-void net::MultipartPostData::processChunk(char* chunk, size_t size)
+void net::MultipartPostDataParser::processChunk(char* chunk, size_t size)
 {
     if (_state == 0) // Waiting for boundary
     {

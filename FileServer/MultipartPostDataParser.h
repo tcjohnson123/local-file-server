@@ -10,13 +10,13 @@ namespace net
 {
     class PostDataHandler;
 
-    class MultipartPostData
+    class MultipartPostDataParser
     {
     public:
-        MultipartPostData(PostDataHandler* handler, std::string_view boundary);
-        MultipartPostData(const MultipartPostData& other) = delete;
-        MultipartPostData& operator=(const MultipartPostData& rhs) = delete;
-        virtual ~MultipartPostData();
+        MultipartPostDataParser(PostDataHandler* handler, std::string_view boundary);
+        MultipartPostDataParser(const MultipartPostDataParser& other) = delete;
+        MultipartPostDataParser& operator=(const MultipartPostDataParser& rhs) = delete;
+        virtual ~MultipartPostDataParser();
 
         void processChar(char ch);
 

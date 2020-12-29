@@ -42,7 +42,7 @@
     <ClCompile Include="FileServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MultipartPostData.cpp">
+    <ClCompile Include="MultipartPostDataParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -80,10 +80,10 @@
     <ClInclude Include="FileServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MultipartPostData.h">
+    <ClInclude Include="PostDataHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PostDataHandler.h">
+    <ClInclude Include="MultipartPostDataParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
