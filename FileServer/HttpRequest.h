@@ -7,6 +7,8 @@
 
 namespace net
 {
+    class PostDataHandler;
+
     class HttpRequest
     {
     public:
@@ -22,10 +24,12 @@ namespace net
         bool hasCredentials() const;
         std::string username() const;
         std::string password() const;
+        bool decodePostData(PostDataHandler* handler) const;
 
     private:
         void addHeader(std::string_view header);
         void parseCredentials();
+        void parseContentType();
 
     public:
         std::map<std::string, std::string> headers;
@@ -38,7 +42,6 @@ namespace net
         bool _isValid;
         std::string _contentType;
         std::string _boundary;
-        int _contentLength;
         bool _hasCredentials;
         std::string _username;
         std::string _password;
