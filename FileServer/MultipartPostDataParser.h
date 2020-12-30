@@ -26,7 +26,6 @@ namespace net
         bool isBoundary(char* chunk, size_t size);
 
     private:
-        UploadedFile _uploadedFile;
         char _chunk[256];
         int _chunkSize;
         int _index;

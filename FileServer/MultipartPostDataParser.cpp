@@ -95,8 +95,6 @@ void net::MultipartPostDataParser::processChunk(char* chunk, size_t size)
                 else if (prop.name == "filename")
                 {
                     _isFile = true;
-                    _uploadedFile.fileName = prop.value;
-                    _uploadedFile.tempName = std::filesystem::temp_directory_path() / prop.value;
                     _numWrites = 0;
                     _fs = _handler->createUploadHandler(prop.value);
                 }
