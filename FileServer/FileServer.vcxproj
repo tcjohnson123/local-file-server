@@ -166,9 +166,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="PostDataParser.cpp" />
     <ClCompile Include="StreamReader.cpp" />
     <ClCompile Include="StreamWriter.cpp" />
     <ClCompile Include="StringUtils.cpp" />
+    <ClCompile Include="UrlEncodedPostDataParser.cpp" />
     <ClCompile Include="WebServer.cpp" />
     <ClCompile Include="win32\Socket.cpp" />
   </ItemGroup>
@@ -178,6 +180,7 @@
     <ClInclude Include="MultipartPostDataParser.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PostDataHandler.h" />
+    <ClInclude Include="PostDataParser.h" />
     <ClInclude Include="Property.h" />
     <ClInclude Include="RequestHandler.h" />
     <ClInclude Include="Socket.h" />
@@ -186,6 +189,7 @@
     <ClInclude Include="StreamWriter.h" />
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="UploadedFile.h" />
+    <ClInclude Include="UrlEncodedPostDataParser.h" />
     <ClInclude Include="WebServer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

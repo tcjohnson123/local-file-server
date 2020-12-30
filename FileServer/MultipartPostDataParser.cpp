@@ -8,6 +8,7 @@
 #include <string.h>
 
 net::MultipartPostDataParser::MultipartPostDataParser(PostDataHandler* handler, std::string_view boundary)
+    : PostDataParser(handler)
 {
     _handler = handler;
     _boundary = boundary;
@@ -21,11 +22,7 @@ net::MultipartPostDataParser::MultipartPostDataParser(PostDataHandler* handler, 
 
 net::MultipartPostDataParser::~MultipartPostDataParser()
 {
-    if (_fs.is_open())
-    {
-        _handler->addUploadedFile(_uploadedFile);
-        _fs.close();
-    }
+    endOfStream();
 }
 
 void net::MultipartPostDataParser::processChar(char ch)
@@ -36,6 +33,15 @@ void net::MultipartPostDataParser::processChar(char ch)
         _index = 0;
     }
     _chunk[_index++] = ch;
+}
+
+void net::MultipartPostDataParser::endOfStream()
+{
+    if (_fs.is_open())
+    {
+        _handler->addUploadedFile(_uploadedFile);
+        _fs.close();
+    }
 }
 
 bool net::MultipartPostDataParser::isBoundary(char* chunk, size_t size)
