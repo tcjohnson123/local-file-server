@@ -2,8 +2,7 @@
 #include "HttpRequest.h"
 #include "StringUtils.h"
 #include "StreamReader.h"
-#include "MultipartPostDataParser.h"
-#include "UrlEncodedPostDataParser.h"
+#include "PostDataDecoder.h"
 #include <vector>
 #include <string>
 #include <sstream>
@@ -41,7 +40,6 @@ net::HttpRequest::HttpRequest(Stream* stream, const char* clientIP)
     }
 
     parseCredentials();
-    parseContentType();
 }
 
 void net::HttpRequest::addHeader(std::string_view header)
@@ -128,44 +126,6 @@ std::string net::HttpRequest::password() const
 
 bool net::HttpRequest::decodePostData(PostDataHandler* handler) const
 {
-    int contentLength = -1;
-    std::string contentLengthStr = getHeader("content-length");
-    if (contentLengthStr != "")
-        contentLength = atoi(contentLengthStr.c_str());
-
-    std::unique_ptr<PostDataParser> parser;
-    if (_contentType == "multipart/form-data" && _boundary != "")
-        parser = std::make_unique<MultipartPostDataParser>(handler, _boundary);
-    else if (_contentType == "multipart/x-www-form-urlencoded")
-        parser = std::make_unique<UrlEncodedPostDataParser>(handler);
-    else
-        return false;
-
-    char ch;
-    for (int i = 0; i < contentLength; i++)
-    {
-        int n = _stream->receive(&ch, 1);
-        if (n > 0)
-            parser->processChar(ch);
-        else
-            break;
-    }
-    parser->endOfStream();
-    return true;
-}
-
-void net::HttpRequest::parseContentType()
-{
-    std::string contentType = getHeader("content-type");
-    std::list<Property> props;
-    StringUtils::parseNameValuePairs(props, contentType.c_str(), ';');
-    if (!props.empty())
-    {
-        _contentType = props.front().name;
-        for (const auto& prop : props)
-        {
-            if (prop.name == "boundary")
-                _boundary = prop.value;
-        }
-    }
+    PostDataDecoder decoder(handler, getHeader("content-type"), getHeader("content-length"));
+    return decoder.decode(_stream);
 }

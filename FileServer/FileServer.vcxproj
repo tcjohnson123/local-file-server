@@ -166,6 +166,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="PostDataDecoder.cpp" />
     <ClCompile Include="PostDataParser.cpp" />
     <ClCompile Include="StreamReader.cpp" />
     <ClCompile Include="StreamWriter.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="HttpRequest.h" />
     <ClInclude Include="MultipartPostDataParser.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PostDataDecoder.h" />
     <ClInclude Include="PostDataHandler.h" />
     <ClInclude Include="PostDataParser.h" />
     <ClInclude Include="Property.h" />

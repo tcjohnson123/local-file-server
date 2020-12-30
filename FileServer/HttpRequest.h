@@ -29,7 +29,6 @@ namespace net
     private:
         void addHeader(std::string_view header);
         void parseCredentials();
-        void parseContentType();
 
     public:
         std::map<std::string, std::string> headers;
@@ -40,7 +39,6 @@ namespace net
         std::string _clientIP;
         Stream* _stream;
         bool _isValid;
-        std::string _contentType;
         std::string _boundary;
         bool _hasCredentials;
         std::string _username;

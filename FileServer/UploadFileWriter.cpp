@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "UploadFileWriter.h"
 
-net::UploadFileWriter::UploadFileWriter(std::string_view fname)
+net::UploadFileWriter::UploadFileWriter(const std::filesystem::path& fname)
 {
 	//_tempName = std::filesystem::temp_directory_path() / fname;
 	//_fs.open(_tempName, std::ios_base::binary);

@@ -4,6 +4,7 @@
 #include "HttpRequest.h"
 #include "StreamWriter.h"
 #include "StringUtils.h"
+#include "UploadFileWriter.h"
 #include <sstream>
 #include <filesystem>
 #include <fstream>
@@ -21,6 +22,16 @@ net::FileServer::~FileServer()
 void net::FileServer::handleRequest(const HttpRequest& request)
 {
     _streamWriter = std::make_unique<StreamWriter>(request.stream());
+
+    if (request.method() == "POST")
+    {
+        request.decodePostData(this);
+        std::string dest = _post["path"] + _uploadedFile.fileName;
+        std::filesystem::rename(_uploadedFile.tempName, std::filesystem::u8path(dest));
+        serveString("302 Found", "", { "Location: " + _post["path"] });
+        return;
+    }
+
     std::string uri = std::string(".") + request.uri();
     auto path = std::filesystem::u8path(uri);
     if (std::filesystem::is_directory(path))
@@ -163,4 +174,16 @@ void net::FileServer::serveDirectory(const std::filesystem::path& path)
     body << "</form>";
     body << "</body></html>\n";
     serveString("200 OK", body.str());
+}
+
+void net::FileServer::addDataPair(std::string_view name, std::string_view value)
+{
+    _post[std::string(name)] = value;
+}
+
+std::unique_ptr<net::UploadHandler> net::FileServer::createUploadHandler(std::string_view fname)
+{
+    _uploadedFile.fileName = fname;
+    _uploadedFile.tempName = std::filesystem::temp_directory_path() / std::filesystem::u8path(fname);
+    return std::make_unique<UploadFileWriter>(_uploadedFile.tempName);
 }

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "RequestHandler.h"
+#include "PostDataHandler.h"
+#include "UploadedFile.h"
 #include <string>
 #include <memory>
 #include <filesystem>
@@ -9,11 +11,14 @@ namespace net
 {
     class StreamWriter;
 
-    class FileServer
+    class FileServer : public PostDataHandler
     {
     public:
         FileServer();
         virtual ~FileServer();
+
+        void addDataPair(std::string_view name, std::string_view value) override;
+        std::unique_ptr<UploadHandler> createUploadHandler(std::string_view fname) override;
 
         void handleRequest(const HttpRequest& request);
 
@@ -28,6 +33,8 @@ namespace net
 
     private:
         std::unique_ptr<StreamWriter> _streamWriter;
+        std::map<std::string, std::string> _post;
+        UploadedFile _uploadedFile;
     };
 }
 

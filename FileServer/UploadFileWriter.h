@@ -9,7 +9,7 @@ namespace net
     class UploadFileWriter : public UploadHandler
     {
     public:
-        UploadFileWriter(std::string_view fname);
+        UploadFileWriter(const std::filesystem::path& fname);
 
         bool handleChunk(const char* data, size_t size) override;
         void endOfStream() override;
