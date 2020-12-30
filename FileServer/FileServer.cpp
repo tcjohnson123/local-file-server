@@ -26,10 +26,13 @@ void net::FileServer::handleRequest(const HttpRequest& request)
     if (request.method() == "POST")
     {
         request.decodePostData(this);
-        std::string dest = _post["path"] + _uploadedFile.fileName;
-        std::filesystem::rename(_uploadedFile.tempName, std::filesystem::u8path(dest));
-        serveString("302 Found", "", { "Location: " + _post["path"] });
-        return;
+        if (!_uploadedFile.fileName.empty())
+        {
+            std::string dest = _post["path"] + _uploadedFile.fileName;
+            std::filesystem::rename(_uploadedFile.tempName, std::filesystem::u8path(dest));
+            serveString("302 Found", "", { "Location: " + _post["path"] });
+            return;
+        }
     }
 
     std::string uri = std::string(".") + request.uri();
