@@ -8,6 +8,7 @@
 namespace net
 {
     class PostDataHandler;
+    class UploadHandler;
 
     class MultipartPostDataParser : public PostDataParser
     {
@@ -33,7 +34,7 @@ namespace net
         std::string _boundary;
         bool _isFile;
         std::string _name;
-        std::ofstream _fs;
+        std::unique_ptr<UploadHandler> _fs;
         int _numWrites;
     };
 }

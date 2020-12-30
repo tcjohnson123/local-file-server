@@ -170,6 +170,7 @@
     <ClCompile Include="StreamReader.cpp" />
     <ClCompile Include="StreamWriter.cpp" />
     <ClCompile Include="StringUtils.cpp" />
+    <ClCompile Include="UploadFileWriter.cpp" />
     <ClCompile Include="UrlEncodedPostDataParser.cpp" />
     <ClCompile Include="WebServer.cpp" />
     <ClCompile Include="win32\Socket.cpp" />
@@ -189,6 +190,8 @@
     <ClInclude Include="StreamWriter.h" />
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="UploadedFile.h" />
+    <ClInclude Include="UploadFileWriter.h" />
+    <ClInclude Include="UploadHandler.h" />
     <ClInclude Include="UrlEncodedPostDataParser.h" />
     <ClInclude Include="WebServer.h" />
   </ItemGroup>

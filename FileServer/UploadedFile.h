@@ -8,6 +8,6 @@ namespace net
     {
     public:
         std::filesystem::path tempName;
-        std::filesystem::path fileName;
+        std::string fileName;
     };
 }

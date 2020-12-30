@@ -3,6 +3,7 @@
 #include "Property.h"
 #include "StringUtils.h"
 #include "PostDataHandler.h"
+#include "UploadHandler.h"
 #include <string>
 #include <list>
 #include <string.h>
@@ -37,10 +38,9 @@ void net::MultipartPostDataParser::processChar(char ch)
 
 void net::MultipartPostDataParser::endOfStream()
 {
-    if (_fs.is_open())
+    if (_fs)
     {
-        _handler->addUploadedFile(_uploadedFile);
-        _fs.close();
+        _fs->endOfStream();
     }
 }
 
@@ -98,7 +98,7 @@ void net::MultipartPostDataParser::processChunk(char* chunk, size_t size)
                     _uploadedFile.fileName = prop.value;
                     _uploadedFile.tempName = std::filesystem::temp_directory_path() / prop.value;
                     _numWrites = 0;
-                    _fs.open(_uploadedFile.tempName, std::ios_base::binary);
+                    _fs = _handler->createUploadHandler(prop.value);
                 }
             }
         }
@@ -110,8 +110,7 @@ void net::MultipartPostDataParser::processChunk(char* chunk, size_t size)
             _isFile = false;
             if (_fs)
             {
-                _handler->addUploadedFile(_uploadedFile);
-                _fs.close();
+                _fs->endOfStream();
             }
             _state = 1;
         }
@@ -122,9 +121,9 @@ void net::MultipartPostDataParser::processChunk(char* chunk, size_t size)
                 if (_fs)
                 {
                     if (_numWrites++ == 0)
-                        _fs.write(chunk + 2, size - 2);
+                        _fs->handleChunk(chunk + 2, size - 2);
                     else
-                        _fs.write(chunk, size);
+                        _fs->handleChunk(chunk, size);
                 }
             }
             else if (size > 2)

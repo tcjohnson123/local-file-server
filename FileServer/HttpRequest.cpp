@@ -134,7 +134,6 @@ bool net::HttpRequest::decodePostData(PostDataHandler* handler) const
         contentLength = atoi(contentLengthStr.c_str());
 
     std::unique_ptr<PostDataParser> parser;
-
     if (_contentType == "multipart/form-data" && _boundary != "")
         parser = std::make_unique<MultipartPostDataParser>(handler, _boundary);
     else if (_contentType == "multipart/x-www-form-urlencoded")
@@ -151,6 +150,7 @@ bool net::HttpRequest::decodePostData(PostDataHandler* handler) const
         else
             break;
     }
+    parser->endOfStream();
     return true;
 }
 
