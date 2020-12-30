@@ -171,7 +171,7 @@ void net::FileServer::serveDirectory(const std::filesystem::path& path)
         body << "<a href=\"" << href << "\">" << displayName << "</a><br />\n";
     }
     body << "<form action=\"/upload.asp\" method=\"post\" enctype=\"multipart/form-data\">";
-    body << "  <input type=\"hidden\" name=\"path\" value=\"" << path << "\">";
+    body << "  <input type=\"hidden\" name=\"path\" value=\"" << path.u8string() << "\">";
     body << "  <br>File: <input type=\"file\" name=\"fname\"><br>";
     body << "  <input type=\"submit\" value=\"Upload\">";
     body << "</form>";
