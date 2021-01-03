@@ -96,7 +96,7 @@ void net::MultipartPostDataParser::processChunk(char* chunk, size_t size)
                 {
                     _isFile = true;
                     _numWrites = 0;
-                    _fs = _handler->createUploadHandler(prop.value);
+                    _fs = _handler->createUploadHandler(_name, prop.value);
                 }
             }
         }

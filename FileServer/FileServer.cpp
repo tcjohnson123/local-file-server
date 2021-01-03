@@ -184,7 +184,8 @@ void net::FileServer::addDataPair(std::string_view name, std::string_view value)
     _post[std::string(name)] = value;
 }
 
-std::unique_ptr<net::UploadHandler> net::FileServer::createUploadHandler(std::string_view fname)
+std::unique_ptr<net::UploadHandler> net::FileServer::createUploadHandler(std::string_view elementId, 
+    std::string_view fname)
 {
     _uploadedFile.fileName = fname;
     _uploadedFile.tempName = std::filesystem::temp_directory_path() / std::filesystem::u8path(fname);
