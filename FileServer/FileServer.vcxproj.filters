@@ -51,9 +51,6 @@
     <ClCompile Include="PostDataParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UploadFileWriter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PostDataDecoder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -105,9 +102,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UrlEncodedPostDataParser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UploadFileWriter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UploadHandler.h">

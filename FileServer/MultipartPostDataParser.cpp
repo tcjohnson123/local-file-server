@@ -40,7 +40,7 @@ void net::MultipartPostDataParser::endOfStream()
 {
     if (_fs)
     {
-        _fs->endOfStream();
+        _fs->close();
     }
 }
 
@@ -96,7 +96,7 @@ void net::MultipartPostDataParser::processChunk(char* chunk, size_t size)
                 {
                     _isFile = true;
                     _numWrites = 0;
-                    _fs = _handler->createUploadHandler(_name, prop.value);
+                    _fs = _handler->createStreamForUpload(_name, prop.value);
                 }
             }
         }
@@ -108,7 +108,7 @@ void net::MultipartPostDataParser::processChunk(char* chunk, size_t size)
             _isFile = false;
             if (_fs)
             {
-                _fs->endOfStream();
+                _fs->close();
             }
             _state = 1;
         }
@@ -119,9 +119,9 @@ void net::MultipartPostDataParser::processChunk(char* chunk, size_t size)
                 if (_fs)
                 {
                     if (_numWrites++ == 0)
-                        _fs->handleChunk(chunk + 2, size - 2);
+                        _fs->write(chunk + 2, size - 2);
                     else
-                        _fs->handleChunk(chunk, size);
+                        _fs->write(chunk, size);
                 }
             }
             else if (size > 2)

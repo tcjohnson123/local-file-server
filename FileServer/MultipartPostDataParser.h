@@ -33,7 +33,7 @@ namespace net
         std::string _boundary;
         bool _isFile;
         std::string _name;
-        std::unique_ptr<UploadHandler> _fs;
+        std::unique_ptr<std::ofstream> _fs;
         int _numWrites;
     };
 }
