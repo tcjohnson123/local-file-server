@@ -19,7 +19,7 @@ bool net::PostDataDecoder::decode(InputStream* stream)
     std::unique_ptr<PostDataParser> parser;
     if (_contentType == "multipart/form-data" && _boundary != "")
         parser = std::make_unique<MultipartPostDataParser>(_handler, _boundary);
-    else if (_contentType == "multipart/x-www-form-urlencoded")
+    else if (_contentType == "application/x-www-form-urlencoded")
         parser = std::make_unique<UrlEncodedPostDataParser>(_handler);
     else
         return false;

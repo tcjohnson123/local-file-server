@@ -1,5 +1,7 @@
 #pragma once
 
+#include <sstream>
+
 namespace net
 {
     class PostDataHandler;
@@ -13,5 +15,6 @@ namespace net
 
     protected:
         PostDataHandler* _handler;
+        std::ostringstream _stream;
     };
 }
