@@ -186,7 +186,9 @@ void net::FileServer::addDataPair(std::string_view name, std::string_view value)
 std::unique_ptr<std::ofstream> net::FileServer::createStreamForUpload(std::string_view elementId,
     std::string_view fname)
 {
+    std::ostringstream tempName;
+    tempName << "upload_" << StringUtils::randomString(8) << "_" << fname;
     _uploadedFile.fileName = fname;
-    _uploadedFile.tempName = std::filesystem::temp_directory_path() / std::filesystem::u8path(fname);
+    _uploadedFile.tempName = std::filesystem::temp_directory_path() / std::filesystem::u8path(tempName.str());
     return std::make_unique<std::ofstream>(_uploadedFile.tempName, std::ios_base::binary);
 }
