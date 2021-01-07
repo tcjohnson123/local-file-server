@@ -24,6 +24,7 @@ namespace net
     private:
         void processChunk(char* chunk, size_t size);
         bool isBoundary(char* chunk, size_t size);
+        void closeStream();
 
     private:
         char _chunk[256];

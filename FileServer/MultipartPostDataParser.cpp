@@ -36,12 +36,16 @@ void net::MultipartPostDataParser::processChar(char ch)
     _chunk[_index++] = ch;
 }
 
+void net::MultipartPostDataParser::closeStream()
+{
+    if (_fs && _fs->is_open())
+        _fs->close();
+    _fs.reset();
+}
+
 void net::MultipartPostDataParser::endOfStream()
 {
-    if (_fs)
-    {
-        _fs->close();
-    }
+    closeStream();
 }
 
 bool net::MultipartPostDataParser::isBoundary(char* chunk, size_t size)
@@ -106,17 +110,14 @@ void net::MultipartPostDataParser::processChunk(char* chunk, size_t size)
         if (isBoundary(chunk, size))
         {
             _isFile = false;
-            if (_fs)
-            {
-                _fs->close();
-            }
+            closeStream();
             _state = 1;
         }
         else
         {
             if (_isFile)
             {
-                if (_fs)
+                if (_fs && *_fs)
                 {
                     if (_numWrites++ == 0)
                         _fs->write(chunk + 2, size - 2);
