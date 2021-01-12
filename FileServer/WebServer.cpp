@@ -27,13 +27,14 @@ net::WebServer::WebServer(RequestHandler& handler) : _handler(handler)
 bool net::WebServer::start()
 {
     Socket socket(Protocol::TCP);
-    socket.bind("0.0.0.0", 8080);
+    socket.bind(EndPoint("0.0.0.0", 8080));
     bool rc = socket.listen();
 
     while (true)
     {
-        std::string clientIP;
-        auto client = socket.accept(&clientIP);
+        EndPoint clientEndPoint;
+        auto client = socket.accept(&clientEndPoint);
+        auto clientIP = clientEndPoint.ipAddress();
         if (!client.valid())
         {
             perror("accept() error");
