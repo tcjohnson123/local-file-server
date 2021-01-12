@@ -3,6 +3,7 @@
 #include "Stream.h"
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace net
 {
@@ -16,6 +17,7 @@ namespace net
 	public:
 		EndPoint();
 		EndPoint(const char* ip, int port);
+		EndPoint(const EndPoint& other);
 		virtual ~EndPoint();
 
 		std::string ipAddress() const;
@@ -41,6 +43,7 @@ namespace net
 
 		static bool startUp();
 		static void shutDown();
+		static std::vector<std::string> getHostByName(const char* hostName);
 		bool valid() const;
 		bool bind(const EndPoint& endPoint);
 		bool listen();
@@ -49,6 +52,7 @@ namespace net
 		int send(const char* buf, int len) override;
 		int sendTo(const char* buf, int len, const EndPoint& endPoint);
 		int receive(char* buf, int len) override;
+		EndPoint endPoint() const;
 
 	private:
 		std::shared_ptr<SocketImpl> pImpl;

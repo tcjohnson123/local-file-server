@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "../Socket.h"
 #include <winsock2.h>
 #include <Ws2tcpip.h>
@@ -15,11 +14,18 @@ net::EndPoint::EndPoint()
 }
 
 net::EndPoint::EndPoint(const char* ip, int port)
+    : pImpl(std::make_unique<EndPointImpl>())
 {
     pImpl->sa.sin_family = AF_INET;
     //sa.sin_addr.s_addr = inet_addr(ip);
     InetPtonA(AF_INET, ip, &pImpl->sa.sin_addr.s_addr);
     pImpl->sa.sin_port = htons(port);
+}
+
+net::EndPoint::EndPoint(const EndPoint& other)
+    : pImpl(std::make_unique<EndPointImpl>())
+{
+    pImpl->sa = other.pImpl->sa;
 }
 
 net::EndPoint::~EndPoint()
@@ -126,4 +132,33 @@ int net::Socket::sendTo(const char* buf, int len, const EndPoint& endPoint)
 {
     int flags = 0;
     return ::sendto(pImpl->s, buf, len, flags, (SOCKADDR*)&endPoint.pImpl->sa, sizeof(endPoint.pImpl->sa));
+}
+
+net::EndPoint net::Socket::endPoint() const
+{
+    net::EndPoint endPoint;
+    int nameLen = (int)sizeof(endPoint.pImpl->sa);
+    ::getsockname(pImpl->s, (SOCKADDR*)&endPoint.pImpl->sa, &nameLen);
+    return endPoint;
+}
+
+std::vector<std::string> net::Socket::getHostByName(const char* hostName)
+{
+    std::vector<std::string> result;
+
+    struct hostent* remoteHost;
+    remoteHost = ::gethostbyname(hostName);
+
+    if (remoteHost->h_addrtype == AF_INET)
+    {
+        int i = 0;
+        while (remoteHost->h_addr_list[i] != 0) 
+        {
+            struct in_addr addr;
+            char strAddress[64];
+            InetNtopA(AF_INET, &addr, strAddress, sizeof(strAddress));
+            result.push_back(strAddress);
+        }
+    }
+    return result;
 }
