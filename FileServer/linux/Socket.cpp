@@ -5,6 +5,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <netdb.h>
 
 class net::EndPointImpl
 {
@@ -121,4 +122,24 @@ int net::Socket::receive(char* buf, int len)
 {
     int flags = 0;
     return ::recv(pImpl->s, buf, len, flags);
+}
+
+
+std::vector<std::string> net::Socket::getHostByName(const char* hostName)
+{
+    std::vector<std::string> hosts;
+    struct hostent* remoteHost = ::gethostbyname(hostName);
+    
+    int i = 0;
+    struct in_addr addr;
+    if (remoteHost->h_addrtype == AF_INET)
+    {
+		while (remoteHost->h_addr_list[i] != 0) 
+		{
+			addr.s_addr = *(u_long *) remoteHost->h_addr_list[i++];
+			hosts.push_back(inet_ntoa(addr));
+		}
+	}
+    
+    return hosts;
 }
