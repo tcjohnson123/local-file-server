@@ -18,10 +18,17 @@ net::EndPoint::EndPoint()
 }
 
 net::EndPoint::EndPoint(const char* ip, int port)
+	: pImpl(std::make_unique<EndPointImpl>())
 {
     pImpl->sa.sin_family = AF_INET;
     pImpl->sa.sin_addr.s_addr = inet_addr(ip);
     pImpl->sa.sin_port = htons(port);
+}
+
+net::EndPoint::EndPoint(const EndPoint& other)
+    : pImpl(std::make_unique<EndPointImpl>())
+{
+    pImpl->sa = other.pImpl->sa;
 }
 
 net::EndPoint::~EndPoint()
