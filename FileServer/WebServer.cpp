@@ -8,7 +8,7 @@
 #include <iostream>
 #include <thread>
 
-static void clientThreadFn(Socket socket, const std::string& clientIP, net::RequestHandler& handler)
+static void clientThreadFn(net::Socket socket, const std::string& clientIP, net::RequestHandler& handler)
 {
     net::HttpRequest request(&socket, clientIP.c_str());
     handler.handleRequest(request);

@@ -3,13 +3,13 @@
 #include <winsock2.h>
 #include <Ws2tcpip.h>
 
-class SocketImpl
+class net::SocketImpl
 {
 public:
     SOCKET s;
 };
 
-Socket::Socket(Protocol proto) : pImpl(std::make_shared<SocketImpl>())
+net::Socket::Socket(Protocol proto) : pImpl(std::make_shared<SocketImpl>())
 {
     if (proto == Protocol::TCP)
         pImpl->s = socket(AF_INET, SOCK_STREAM, 0);
@@ -17,12 +17,12 @@ Socket::Socket(Protocol proto) : pImpl(std::make_shared<SocketImpl>())
         pImpl->s = INVALID_SOCKET;
 }
 
-bool Socket::valid() const
+bool net::Socket::valid() const
 {
     return pImpl->s != INVALID_SOCKET;
 }
 
-bool Socket::startUp()
+bool net::Socket::startUp()
 {
     WSADATA wsa;
     if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
@@ -31,12 +31,12 @@ bool Socket::startUp()
         return true;
 }
 
-void Socket::shutDown()
+void net::Socket::shutDown()
 {
     WSACleanup();
 }
 
-bool Socket::bind(const char* ip, int port)
+bool net::Socket::bind(const char* ip, int port)
 {
     struct sockaddr_in sa;
     sa.sin_family = AF_INET;
@@ -52,13 +52,13 @@ bool Socket::bind(const char* ip, int port)
     return result != SOCKET_ERROR;
 }
 
-bool Socket::listen()
+bool net::Socket::listen()
 {
     auto result = ::listen(pImpl->s, SOMAXCONN);
     return result != SOCKET_ERROR;
 }
 
-Socket Socket::accept(std::string* clientIP)
+net::Socket net::Socket::accept(std::string* clientIP)
 {
     SOCKADDR_IN addr;
     int addrlen = sizeof(addr);
@@ -73,19 +73,19 @@ Socket Socket::accept(std::string* clientIP)
     return client;
 }
 
-bool Socket::close()
+bool net::Socket::close()
 {
     auto result = ::closesocket(pImpl->s);
     return result != SOCKET_ERROR;
 }
 
-int Socket::send(const char* buf, int len)
+int net::Socket::send(const char* buf, int len)
 {
     int flags = 0;
     return ::send(pImpl->s, buf, len, flags);
 }
 
-int Socket::receive(char* buf, int len)
+int net::Socket::receive(char* buf, int len)
 {
     int flags = 0;
     return ::recv(pImpl->s, buf, len, flags);

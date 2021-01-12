@@ -20,10 +20,10 @@ namespace net
 
 int main(void)
 {
-    Socket::startUp();
+    net::Socket::startUp();
     net::FileRequestHandler handler;
     net::WebServer webServer(handler);
     webServer.start();
-    Socket::shutDown();
+    net::Socket::shutDown();
     return 0;
 }

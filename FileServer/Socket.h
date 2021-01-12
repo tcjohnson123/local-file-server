@@ -4,29 +4,32 @@
 #include <memory>
 #include <string>
 
-class SocketImpl;
-
-enum class Protocol
+namespace net
 {
-	None,
-	TCP
-};
+	class SocketImpl;
 
-class Socket : public net::Stream
-{
-public:
-	Socket(Protocol proto);
+	enum class Protocol
+	{
+		None,
+		TCP
+	};
 
-	static bool startUp();
-	static void shutDown();
-	bool valid() const;
-	bool bind(const char* ip, int port);
-	bool listen();
-	bool close();
-	Socket accept(std::string* clientIP = nullptr);
-	int send(const char* buf, int len) override;
-	int receive(char* buf, int len) override;
+	class Socket : public net::Stream
+	{
+	public:
+		Socket(Protocol proto);
 
-private:
-	std::shared_ptr<SocketImpl> pImpl;
-};
+		static bool startUp();
+		static void shutDown();
+		bool valid() const;
+		bool bind(const char* ip, int port);
+		bool listen();
+		bool close();
+		Socket accept(std::string* clientIP = nullptr);
+		int send(const char* buf, int len) override;
+		int receive(char* buf, int len) override;
+
+	private:
+		std::shared_ptr<SocketImpl> pImpl;
+	};
+}
