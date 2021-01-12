@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "../Socket.h"
 #include <winsock2.h>
 #include <Ws2tcpip.h>
@@ -144,21 +146,33 @@ net::EndPoint net::Socket::endPoint() const
 
 std::vector<std::string> net::Socket::getHostByName(const char* hostName)
 {
-    std::vector<std::string> result;
+    std::vector<std::string> hosts;
 
-    struct hostent* remoteHost;
-    remoteHost = ::gethostbyname(hostName);
+    DWORD dwRetval;
+    struct addrinfo* result = NULL;
+    struct addrinfo hints;
+    struct addrinfo* ptr = nullptr;
+    struct sockaddr_in* sockaddr_ipv4;
 
-    if (remoteHost->h_addrtype == AF_INET)
+    ZeroMemory(&hints, sizeof(hints));
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_protocol = IPPROTO_TCP;
+
+    dwRetval = ::getaddrinfo(hostName, "http", &hints, &result);
+    if (dwRetval != 0)
+        return hosts;
+
+    for (ptr = result; ptr != nullptr; ptr = ptr->ai_next)
     {
-        int i = 0;
-        while (remoteHost->h_addr_list[i] != 0) 
+        if (ptr->ai_family == AF_INET)
         {
-            struct in_addr addr;
+            sockaddr_ipv4 = (struct sockaddr_in*)ptr->ai_addr;
             char strAddress[64];
-            InetNtopA(AF_INET, &addr, strAddress, sizeof(strAddress));
-            result.push_back(strAddress);
+            InetNtopA(AF_INET, &sockaddr_ipv4->sin_addr, strAddress, sizeof(strAddress));
+            hosts.push_back(strAddress);
         }
     }
-    return result;
+
+    return hosts;
 }
