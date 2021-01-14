@@ -175,6 +175,9 @@ std::string net::HttpRequest::boundary() const
 
 bool net::HttpRequest::hasFormData() const
 {
+    if (_method != "POST")
+        return false;
+
     return (_contentType == "multipart/form-data" && _boundary != "")
         || (_contentType == "application/x-www-form-urlencoded");
 }

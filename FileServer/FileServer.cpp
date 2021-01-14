@@ -22,9 +22,9 @@ void net::FileServer::handleRequest(const HttpRequest& request)
 {
     _streamWriter = std::make_unique<StreamWriter>(request.stream());
 
-    if (request.method() == "POST")
+    if (request.hasFormData())
     {
-        request.decodePostData(this);
+        request.decodeFormData(this);
         if (!_uploadedFile.fileName.empty())
         {
             std::string dest = _post["path"] + _uploadedFile.fileName;

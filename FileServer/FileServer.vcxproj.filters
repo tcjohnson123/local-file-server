@@ -104,9 +104,6 @@
     <ClInclude Include="UrlEncodedPostDataParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UploadHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PostDataDecoder.h">
       <Filter>Header Files</Filter>
     </ClInclude>

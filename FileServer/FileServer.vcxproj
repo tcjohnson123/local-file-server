@@ -191,7 +191,6 @@
     <ClInclude Include="StreamWriter.h" />
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="UploadedFile.h" />
-    <ClInclude Include="UploadHandler.h" />
     <ClInclude Include="UrlEncodedPostDataParser.h" />
     <ClInclude Include="WebServer.h" />
   </ItemGroup>
