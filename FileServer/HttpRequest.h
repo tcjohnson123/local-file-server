@@ -24,11 +24,17 @@ namespace net
         bool hasCredentials() const;
         std::string username() const;
         std::string password() const;
-        bool decodePostData(PostDataHandler* handler) const;
+        bool decodeFormData(PostDataHandler* handler) const;
+        int contentLength() const;
+        bool contentLengthValid() const;
+        std::string boundary() const;
+        bool hasFormData() const;
 
     private:
         void addHeader(std::string_view header);
         void parseCredentials();
+        void parseContentTypeHeader();
+        void parseContentLengthHeader();
 
     public:
         std::map<std::string, std::string> headers;
@@ -39,9 +45,12 @@ namespace net
         std::string _clientIP;
         Stream* _stream;
         bool _isValid;
-        std::string _boundary;
         bool _hasCredentials;
         std::string _username;
         std::string _password;
+        std::string _boundary;
+        int _contentLength;
+        std::string _contentType;
+        bool _contentLengthValid;
     };
 }

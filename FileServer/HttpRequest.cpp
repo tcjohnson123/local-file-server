@@ -14,6 +14,8 @@ net::HttpRequest::HttpRequest(Stream* stream, const char* clientIP)
     _hasCredentials = false;
     _clientIP = clientIP;
     _stream = stream;
+    _contentLength = 0;
+    _contentLengthValid = false;
     StreamReader sr(stream);
 
     std::string str;
@@ -124,8 +126,55 @@ std::string net::HttpRequest::password() const
     return _password;
 }
 
-bool net::HttpRequest::decodePostData(PostDataHandler* handler) const
+bool net::HttpRequest::decodeFormData(PostDataHandler* handler) const
 {
     PostDataDecoder decoder(handler, getHeader("content-type"), getHeader("content-length"));
     return decoder.decode(_stream);
+}
+
+void net::HttpRequest::parseContentTypeHeader()
+{
+    auto contentLengthHeader = getHeader("content-length");
+    if (contentLengthHeader != "")
+    {
+        _contentLengthValid = true;
+        _contentLength = atoi(contentLengthHeader.c_str());
+    }
+}
+
+void net::HttpRequest::parseContentLengthHeader()
+{
+    std::list<Property> props;
+    auto contentTypeHeader = getHeader("content-type");
+    StringUtils::parseNameValuePairs(props, contentTypeHeader.c_str(), ';');
+    if (!props.empty())
+    {
+        _contentType = props.front().name;
+        for (const auto& prop : props)
+        {
+            if (prop.name == "boundary")
+                _boundary = prop.value;
+        }
+    }
+}
+
+int net::HttpRequest::contentLength() const
+{
+    return _contentLength;
+}
+
+bool net::HttpRequest::contentLengthValid() const
+{
+    return _contentLengthValid;
+}
+
+std::string net::HttpRequest::boundary() const
+{
+    return _boundary;
+}
+
+bool net::HttpRequest::hasFormData() const
+{
+    return (_contentType == "multipart/form-data" && _boundary != "")
+        || (_contentType == "application/x-www-form-urlencoded");
 }
