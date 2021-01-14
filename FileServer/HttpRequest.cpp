@@ -126,7 +126,7 @@ std::string net::HttpRequest::password() const
     return _password;
 }
 
-bool net::HttpRequest::decodeFormData(PostDataHandler* handler) const
+bool net::HttpRequest::decodeFormData(FormDataHandler* handler) const
 {
     PostDataDecoder decoder(handler, getHeader("content-type"), getHeader("content-length"));
     return decoder.decode(_stream);

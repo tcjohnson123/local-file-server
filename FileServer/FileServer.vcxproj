@@ -181,7 +181,7 @@
     <ClInclude Include="MultipartPostDataParser.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PostDataDecoder.h" />
-    <ClInclude Include="PostDataHandler.h" />
+    <ClInclude Include="FormDataHandler.h" />
     <ClInclude Include="PostDataParser.h" />
     <ClInclude Include="Property.h" />
     <ClInclude Include="RequestHandler.h" />

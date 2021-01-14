@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "PostDataParser.h"
 
-net::PostDataParser::PostDataParser(PostDataHandler* handler)
+net::PostDataParser::PostDataParser(FormDataHandler* handler)
 {
 	_handler = handler;
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "RequestHandler.h"
-#include "PostDataHandler.h"
+#include "FormDataHandler.h"
 #include "UploadedFile.h"
 #include <string>
 #include <memory>
@@ -11,7 +11,7 @@ namespace net
 {
     class StreamWriter;
 
-    class FileServer : public PostDataHandler
+    class FileServer : public FormDataHandler
     {
     public:
         FileServer();

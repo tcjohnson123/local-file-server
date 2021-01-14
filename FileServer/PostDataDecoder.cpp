@@ -6,7 +6,7 @@
 #include "StringUtils.h"
 #include "Stream.h"
 
-net::PostDataDecoder::PostDataDecoder(PostDataHandler* handler, const std::string& contentTypeHeader, const std::string& contentLengthHeader)
+net::PostDataDecoder::PostDataDecoder(FormDataHandler* handler, const std::string& contentTypeHeader, const std::string& contentLengthHeader)
 {
     _handler = handler;
     _contentLengthValid = false;

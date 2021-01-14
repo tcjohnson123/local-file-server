@@ -4,12 +4,12 @@
 
 namespace net
 {
-    class PostDataHandler;
+    class FormDataHandler;
 
     class UrlEncodedPostDataParser : public PostDataParser
     {
     public:
-        UrlEncodedPostDataParser(PostDataHandler* handler);
+        UrlEncodedPostDataParser(FormDataHandler* handler);
 
         void processChar(char ch) override;
         void endOfStream() override;

@@ -1,10 +1,10 @@
 #include "pch.h"
 #include "UrlEncodedPostDataParser.h"
 #include "StringUtils.h"
-#include "PostDataHandler.h"
+#include "FormDataHandler.h"
 #include <map>
 
-net::UrlEncodedPostDataParser::UrlEncodedPostDataParser(PostDataHandler* handler)
+net::UrlEncodedPostDataParser::UrlEncodedPostDataParser(FormDataHandler* handler)
 	: PostDataParser(handler)
 {
 }

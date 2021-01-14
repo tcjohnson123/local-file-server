@@ -7,12 +7,12 @@
 
 namespace net
 {
-    class PostDataHandler;
+    class FormDataHandler;
 
     class MultipartPostDataParser : public PostDataParser
     {
     public:
-        MultipartPostDataParser(PostDataHandler* handler, std::string_view boundary);
+        MultipartPostDataParser(FormDataHandler* handler, std::string_view boundary);
         MultipartPostDataParser(const MultipartPostDataParser& other) = delete;
         MultipartPostDataParser& operator=(const MultipartPostDataParser& rhs) = delete;
         virtual ~MultipartPostDataParser();

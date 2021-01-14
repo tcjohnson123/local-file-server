@@ -5,7 +5,7 @@
 
 namespace net
 {
-    class PostDataHandler
+    class FormDataHandler
     {
     public:
         virtual void addDataPair(std::string_view name, std::string_view value) = 0;

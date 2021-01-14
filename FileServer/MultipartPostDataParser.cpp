@@ -2,12 +2,12 @@
 #include "MultipartPostDataParser.h"
 #include "Property.h"
 #include "StringUtils.h"
-#include "PostDataHandler.h"
+#include "FormDataHandler.h"
 #include <string>
 #include <list>
 #include <string.h>
 
-net::MultipartPostDataParser::MultipartPostDataParser(PostDataHandler* handler, std::string_view boundary)
+net::MultipartPostDataParser::MultipartPostDataParser(FormDataHandler* handler, std::string_view boundary)
     : PostDataParser(handler)
 {
     _handler = handler;

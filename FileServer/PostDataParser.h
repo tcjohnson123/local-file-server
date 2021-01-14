@@ -4,17 +4,17 @@
 
 namespace net
 {
-    class PostDataHandler;
+    class FormDataHandler;
 
     class PostDataParser
     {
     public:
-        PostDataParser(PostDataHandler* handler);
+        PostDataParser(FormDataHandler* handler);
         virtual void processChar(char ch) = 0;
         virtual void endOfStream() = 0;
 
     protected:
-        PostDataHandler* _handler;
+        FormDataHandler* _handler;
         std::ostringstream _stream;
     };
 }

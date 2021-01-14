@@ -7,7 +7,7 @@
 
 namespace net
 {
-    class PostDataHandler;
+    class FormDataHandler;
 
     class HttpRequest
     {
@@ -24,7 +24,7 @@ namespace net
         bool hasCredentials() const;
         std::string username() const;
         std::string password() const;
-        bool decodeFormData(PostDataHandler* handler) const;
+        bool decodeFormData(FormDataHandler* handler) const;
         int contentLength() const;
         bool contentLengthValid() const;
         std::string boundary() const;

@@ -2,13 +2,13 @@
 
 namespace net
 {
-	class PostDataHandler;
+	class FormDataHandler;
 	class InputStream;
 
 	class PostDataDecoder
 	{
 	public:
-		PostDataDecoder(PostDataHandler* handler, const std::string& contentTypeHeader, const std::string& contentLengthHeader);
+		PostDataDecoder(FormDataHandler* handler, const std::string& contentTypeHeader, const std::string& contentLengthHeader);
 
 		bool decode(InputStream* stream);
 
@@ -17,7 +17,7 @@ namespace net
 		void parseContentLengthHeader(const std::string& contentLengthHeader);
 
 	private:
-		PostDataHandler* _handler;
+		FormDataHandler* _handler;
 		std::string _boundary;
 		int _contentLength;
 		std::string _contentType;
