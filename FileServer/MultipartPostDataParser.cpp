@@ -3,7 +3,6 @@
 #include "Property.h"
 #include "StringUtils.h"
 #include "PostDataHandler.h"
-#include "UploadHandler.h"
 #include <string>
 #include <list>
 #include <string.h>

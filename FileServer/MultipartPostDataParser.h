@@ -8,7 +8,6 @@
 namespace net
 {
     class PostDataHandler;
-    class UploadHandler;
 
     class MultipartPostDataParser : public PostDataParser
     {

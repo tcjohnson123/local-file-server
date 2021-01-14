@@ -5,8 +5,6 @@
 
 namespace net
 {
-    class UploadHandler;
-
     class PostDataHandler
     {
     public:
