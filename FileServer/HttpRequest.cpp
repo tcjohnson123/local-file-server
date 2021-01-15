@@ -4,6 +4,7 @@
 #include "StreamReader.h"
 #include "MultipartFormDataParser.h"
 #include "UrlEncodedFormDataParser.h"
+#include "ContentReader.h"
 #include <vector>
 #include <string>
 #include <sstream>
@@ -139,16 +140,10 @@ bool net::HttpRequest::decodeFormData(FormDataHandler* handler) const
     else
         return false;
 
-    constexpr int BUFF_SIZE = 4096;
-    char buff[BUFF_SIZE];
-    int remaining = _contentLength;
-    while (_contentLengthValid == false || remaining > 0)
+    ContentReader reader(_stream, _contentLength, _contentLengthValid);
+    while (auto chunk = reader.readChunk())
     {
-        int n = _stream->receive(buff, std::min(BUFF_SIZE, remaining));
-        if (n <= 0)
-            break;
-        parser->processChars(buff, n);
-        remaining -= n;
+        parser->processChars(chunk.data, chunk.size);
     }
     parser->endOfStream();
     return true;

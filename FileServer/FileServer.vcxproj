@@ -156,6 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ContentReader.cpp" />
     <ClCompile Include="FileServer.cpp" />
     <ClCompile Include="FormDataParser.cpp" />
     <ClCompile Include="HttpRequest.cpp" />
@@ -175,6 +176,7 @@
     <ClCompile Include="win32\Socket.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ContentReader.h" />
     <ClInclude Include="FileServer.h" />
     <ClInclude Include="HttpRequest.h" />
     <ClInclude Include="MultipartFormDataParser.h" />
