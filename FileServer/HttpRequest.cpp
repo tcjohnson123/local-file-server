@@ -142,9 +142,8 @@ bool net::HttpRequest::decodeFormData(FormDataHandler* handler) const
 
     ContentReader reader(_stream, _contentLength, _contentLengthValid);
     while (auto chunk = reader.readChunk())
-    {
         parser->processChars(chunk.data, chunk.size);
-    }
+
     parser->endOfStream();
     return true;
 }

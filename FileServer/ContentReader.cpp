@@ -25,6 +25,7 @@ net::ContentChunk net::ContentReader::readChunk()
 {
     if (_contentLengthValid)
     {
+        // Read until the total number of bytes read matches the contentLength.
         if (!_finished && _remaining > 0)
         {
             int n = _stream->receive(_buff, std::min(_buffSize, _remaining));
@@ -37,6 +38,7 @@ net::ContentChunk net::ContentReader::readChunk()
     }
     else
     {
+        // Read until the client closes the connection.
         if (!_finished)
         {
             int n = _stream->receive(_buff, _buffSize);
