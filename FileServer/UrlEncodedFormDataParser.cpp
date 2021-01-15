@@ -1,20 +1,20 @@
 #include "pch.h"
-#include "UrlEncodedPostDataParser.h"
+#include "UrlEncodedFormDataParser.h"
 #include "StringUtils.h"
 #include "FormDataHandler.h"
 #include <map>
 
-net::UrlEncodedPostDataParser::UrlEncodedPostDataParser(FormDataHandler* handler)
-	: PostDataParser(handler)
+net::UrlEncodedFormDataParser::UrlEncodedFormDataParser(FormDataHandler* handler)
+	: FormDataParser(handler)
 {
 }
 
-void net::UrlEncodedPostDataParser::processChar(char ch)
+void net::UrlEncodedFormDataParser::processChar(char ch)
 {
 	_stream << ch;
 }
 
-void net::UrlEncodedPostDataParser::endOfStream()
+void net::UrlEncodedFormDataParser::endOfStream()
 {
 	std::map<std::string, std::string> props;
 	StringUtils::decodeFormData(_stream.str(), props);

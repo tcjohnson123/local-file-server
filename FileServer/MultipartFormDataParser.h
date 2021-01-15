@@ -1,6 +1,6 @@
 #pragma once
 
-#include "PostDataParser.h"
+#include "FormDataParser.h"
 #include "UploadedFile.h"
 #include <string>
 #include <fstream>
@@ -9,13 +9,13 @@ namespace net
 {
     class FormDataHandler;
 
-    class MultipartPostDataParser : public PostDataParser
+    class MultipartFormDataParser : public FormDataParser
     {
     public:
-        MultipartPostDataParser(FormDataHandler* handler, std::string_view boundary);
-        MultipartPostDataParser(const MultipartPostDataParser& other) = delete;
-        MultipartPostDataParser& operator=(const MultipartPostDataParser& rhs) = delete;
-        virtual ~MultipartPostDataParser();
+        MultipartFormDataParser(FormDataHandler* handler, std::string_view boundary);
+        MultipartFormDataParser(const MultipartFormDataParser& other) = delete;
+        MultipartFormDataParser& operator=(const MultipartFormDataParser& rhs) = delete;
+        virtual ~MultipartFormDataParser();
 
         void processChar(char ch) override;
         void endOfStream() override;

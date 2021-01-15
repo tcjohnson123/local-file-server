@@ -42,13 +42,13 @@
     <ClCompile Include="FileServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MultipartPostDataParser.cpp">
+    <ClCompile Include="MultipartFormDataParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UrlEncodedPostDataParser.cpp">
+    <ClCompile Include="FormDataParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PostDataParser.cpp">
+    <ClCompile Include="UrlEncodedFormDataParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -86,19 +86,19 @@
     <ClInclude Include="FileServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MultipartPostDataParser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="UploadedFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PostDataParser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UrlEncodedPostDataParser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FormDataHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FormDataParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MultipartFormDataParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UrlEncodedFormDataParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

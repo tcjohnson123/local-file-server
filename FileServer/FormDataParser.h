@@ -6,10 +6,10 @@ namespace net
 {
     class FormDataHandler;
 
-    class PostDataParser
+    class FormDataParser
     {
     public:
-        PostDataParser(FormDataHandler* handler);
+        FormDataParser(FormDataHandler* handler);
         virtual void processChar(char ch) = 0;
         virtual void endOfStream() = 0;
 

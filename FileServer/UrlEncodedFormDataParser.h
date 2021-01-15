@@ -1,15 +1,15 @@
 #pragma once
 
-#include "PostDataParser.h"
+#include "FormDataParser.h"
 
 namespace net
 {
     class FormDataHandler;
 
-    class UrlEncodedPostDataParser : public PostDataParser
+    class UrlEncodedFormDataParser : public FormDataParser
     {
     public:
-        UrlEncodedPostDataParser(FormDataHandler* handler);
+        UrlEncodedFormDataParser(FormDataHandler* handler);
 
         void processChar(char ch) override;
         void endOfStream() override;

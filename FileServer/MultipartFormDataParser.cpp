@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "MultipartPostDataParser.h"
+#include "MultipartFormDataParser.h"
 #include "Property.h"
 #include "StringUtils.h"
 #include "FormDataHandler.h"
@@ -7,8 +7,8 @@
 #include <list>
 #include <string.h>
 
-net::MultipartPostDataParser::MultipartPostDataParser(FormDataHandler* handler, std::string_view boundary)
-    : PostDataParser(handler)
+net::MultipartFormDataParser::MultipartFormDataParser(FormDataHandler* handler, std::string_view boundary)
+    : FormDataParser(handler)
 {
     _handler = handler;
     _boundary = boundary;
@@ -20,12 +20,12 @@ net::MultipartPostDataParser::MultipartPostDataParser(FormDataHandler* handler, 
     _numWrites = 0;
 }
 
-net::MultipartPostDataParser::~MultipartPostDataParser()
+net::MultipartFormDataParser::~MultipartFormDataParser()
 {
     endOfStream();
 }
 
-void net::MultipartPostDataParser::processChar(char ch)
+void net::MultipartFormDataParser::processChar(char ch)
 {
     if (ch == 13 || _index >= _chunkSize)
     {
@@ -35,19 +35,19 @@ void net::MultipartPostDataParser::processChar(char ch)
     _chunk[_index++] = ch;
 }
 
-void net::MultipartPostDataParser::closeStream()
+void net::MultipartFormDataParser::closeStream()
 {
     if (_fs && _fs->is_open())
         _fs->close();
     _fs.reset();
 }
 
-void net::MultipartPostDataParser::endOfStream()
+void net::MultipartFormDataParser::endOfStream()
 {
     closeStream();
 }
 
-bool net::MultipartPostDataParser::isBoundary(char* chunk, size_t size)
+bool net::MultipartFormDataParser::isBoundary(char* chunk, size_t size)
 {
     auto boundaryLength = _boundary.length();
     if (size == boundaryLength + 2)
@@ -68,7 +68,7 @@ bool net::MultipartPostDataParser::isBoundary(char* chunk, size_t size)
     return false;
 }
 
-void net::MultipartPostDataParser::processChunk(char* chunk, size_t size)
+void net::MultipartFormDataParser::processChunk(char* chunk, size_t size)
 {
     if (_state == 0) // Waiting for boundary
     {

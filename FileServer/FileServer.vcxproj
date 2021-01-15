@@ -157,30 +157,30 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="FileServer.cpp" />
+    <ClCompile Include="FormDataParser.cpp" />
     <ClCompile Include="HttpRequest.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="MultipartPostDataParser.cpp" />
+    <ClCompile Include="MultipartFormDataParser.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="PostDataParser.cpp" />
     <ClCompile Include="StreamReader.cpp" />
     <ClCompile Include="StreamWriter.cpp" />
     <ClCompile Include="StringUtils.cpp" />
-    <ClCompile Include="UrlEncodedPostDataParser.cpp" />
+    <ClCompile Include="UrlEncodedFormDataParser.cpp" />
     <ClCompile Include="WebServer.cpp" />
     <ClCompile Include="win32\Socket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileServer.h" />
     <ClInclude Include="HttpRequest.h" />
-    <ClInclude Include="MultipartPostDataParser.h" />
+    <ClInclude Include="MultipartFormDataParser.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="FormDataHandler.h" />
-    <ClInclude Include="PostDataParser.h" />
+    <ClInclude Include="FormDataParser.h" />
     <ClInclude Include="Property.h" />
     <ClInclude Include="RequestHandler.h" />
     <ClInclude Include="Socket.h" />
@@ -189,7 +189,7 @@
     <ClInclude Include="StreamWriter.h" />
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="UploadedFile.h" />
-    <ClInclude Include="UrlEncodedPostDataParser.h" />
+    <ClInclude Include="UrlEncodedFormDataParser.h" />
     <ClInclude Include="WebServer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -2,8 +2,8 @@
 #include "HttpRequest.h"
 #include "StringUtils.h"
 #include "StreamReader.h"
-#include "MultipartPostDataParser.h"
-#include "UrlEncodedPostDataParser.h"
+#include "MultipartFormDataParser.h"
+#include "UrlEncodedFormDataParser.h"
 #include <vector>
 #include <string>
 #include <sstream>
@@ -129,11 +129,11 @@ std::string net::HttpRequest::password() const
 
 bool net::HttpRequest::decodeFormData(FormDataHandler* handler) const
 {
-    std::unique_ptr<PostDataParser> parser;
+    std::unique_ptr<FormDataParser> parser;
     if (_contentType == "multipart/form-data" && _boundary != "")
-        parser = std::make_unique<MultipartPostDataParser>(handler, _boundary);
+        parser = std::make_unique<MultipartFormDataParser>(handler, _boundary);
     else if (_contentType == "application/x-www-form-urlencoded")
-        parser = std::make_unique<UrlEncodedPostDataParser>(handler);
+        parser = std::make_unique<UrlEncodedFormDataParser>(handler);
     else
         return false;
 
