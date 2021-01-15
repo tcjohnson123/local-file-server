@@ -94,7 +94,7 @@ void net::MultipartFormDataParser::processChunk(char* chunk, size_t size)
         {
             std::string header(chunk + 2, size - 2);
             std::list<Property> props;
-            StringUtils::parseNameValuePairs(props, header.c_str(), ';');
+            StringUtils::parseNameValuePairs(props, header, ';');
             for (const auto& prop : props)
             {
                 if (prop.name == "name")

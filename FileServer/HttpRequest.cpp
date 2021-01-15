@@ -172,7 +172,7 @@ void net::HttpRequest::parseContentLengthHeader()
 {
     std::list<Property> props;
     auto contentTypeHeader = getHeader("content-type");
-    StringUtils::parseNameValuePairs(props, contentTypeHeader.c_str(), ';');
+    StringUtils::parseNameValuePairs(props, contentTypeHeader, ';');
     if (!props.empty())
     {
         _contentType = props.front().name;
