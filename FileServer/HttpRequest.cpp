@@ -148,6 +148,16 @@ bool net::HttpRequest::decodeFormData(FormDataHandler* handler) const
     return true;
 }
 
+std::string net::HttpRequest::readPostData() const
+{
+    std::ostringstream ss;
+    ContentReader reader(_stream, _contentLength, _contentLengthValid);
+    while (auto chunk = reader.readChunk())
+        ss.write(chunk.data, (size_t)chunk.size);
+
+    return ss.str();
+}
+
 void net::HttpRequest::parseContentTypeHeader()
 {
     auto contentLengthHeader = getHeader("content-length");

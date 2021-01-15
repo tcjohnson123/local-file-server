@@ -25,6 +25,7 @@ namespace net
         std::string username() const;
         std::string password() const;
         bool decodeFormData(FormDataHandler* handler) const;
+        std::string readPostData() const;
         int contentLength() const;
         bool contentLengthValid() const;
         std::string boundary() const;
