@@ -9,7 +9,7 @@
 namespace net::StringUtils
 {
     std::string toLower(std::string_view str);
-    void parseNameValuePairs(std::list<Property>& props, const char* str, char delim);
+    void parseNameValuePairs(std::list<Property>& props, std::string_view str, char delim);
     std::string urlDecode(std::string_view url);
     void decodeFormData(std::string_view url, std::map<std::string, std::string>& properties);
     std::string_view ltrim(std::string_view str);

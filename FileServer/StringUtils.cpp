@@ -13,15 +13,14 @@ std::string net::StringUtils::toLower(std::string_view stringView)
     return std::move(str);
 }
 
-void net::StringUtils::parseNameValuePairs(std::list<Property>& props, const char* str, char delim)
+void net::StringUtils::parseNameValuePairs(std::list<Property>& props, std::string_view str, char delim)
 {
     props.clear();
     std::ostringstream name;
     std::ostringstream value;
     int state = 0;
-    for (int i = 0; str[i]; i++)
+    for (auto ch : str)
     {
-        char ch = str[i];
         if (state == 0)
         {
             if (ch != ' ')
