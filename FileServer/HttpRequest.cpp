@@ -43,6 +43,8 @@ net::HttpRequest::HttpRequest(Stream* stream, const char* clientIP)
     }
 
     parseCredentials();
+    parseContentTypeHeader();
+    parseContentLengthHeader();
 }
 
 void net::HttpRequest::addHeader(std::string_view header)
@@ -137,14 +139,16 @@ bool net::HttpRequest::decodeFormData(FormDataHandler* handler) const
     else
         return false;
 
-    char ch;
-    for (int i = 0; i < _contentLength; i++)
+    constexpr int BUFF_SIZE = 4096;
+    char buff[BUFF_SIZE];
+    int remaining = _contentLength;
+    while (_contentLengthValid == false || remaining > 0)
     {
-        int n = _stream->receive(&ch, 1);
-        if (n > 0)
-            parser->processChar(ch);
-        else
+        int n = _stream->receive(buff, std::min(BUFF_SIZE, remaining));
+        if (n <= 0)
             break;
+        parser->processChars(buff, n);
+        remaining -= n;
     }
     parser->endOfStream();
     return true;

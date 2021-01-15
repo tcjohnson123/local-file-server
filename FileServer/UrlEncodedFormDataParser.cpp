@@ -9,9 +9,9 @@ net::UrlEncodedFormDataParser::UrlEncodedFormDataParser(FormDataHandler* handler
 {
 }
 
-void net::UrlEncodedFormDataParser::processChar(char ch)
+void net::UrlEncodedFormDataParser::processChars(char* data, int count)
 {
-	_stream << ch;
+	_stream.write(data, (size_t)count);
 }
 
 void net::UrlEncodedFormDataParser::endOfStream()

@@ -25,6 +25,12 @@ net::MultipartFormDataParser::~MultipartFormDataParser()
     endOfStream();
 }
 
+void net::MultipartFormDataParser::processChars(char* data, int count)
+{
+    for (int i = 0; i < count; i++)
+        processChar(data[i]);
+}
+
 void net::MultipartFormDataParser::processChar(char ch)
 {
     if (ch == 13 || _index >= _chunkSize)

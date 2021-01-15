@@ -11,7 +11,7 @@ namespace net
     public:
         UrlEncodedFormDataParser(FormDataHandler* handler);
 
-        void processChar(char ch) override;
+        void processChars(char* data, int count) override;
         void endOfStream() override;
     };
 }

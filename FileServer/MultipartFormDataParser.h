@@ -17,13 +17,14 @@ namespace net
         MultipartFormDataParser& operator=(const MultipartFormDataParser& rhs) = delete;
         virtual ~MultipartFormDataParser();
 
-        void processChar(char ch) override;
+        void processChars(char* data, int count) override;
         void endOfStream() override;
 
     private:
         void processChunk(char* chunk, size_t size);
         bool isBoundary(char* chunk, size_t size);
         void closeStream();
+        void processChar(char ch);
 
     private:
         char _chunk[256];

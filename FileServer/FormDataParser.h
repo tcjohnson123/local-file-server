@@ -10,7 +10,7 @@ namespace net
     {
     public:
         FormDataParser(FormDataHandler* handler);
-        virtual void processChar(char ch) = 0;
+        virtual void processChars(char* data, int count) = 0;
         virtual void endOfStream() = 0;
 
     protected:
