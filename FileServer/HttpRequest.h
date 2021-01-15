@@ -12,7 +12,7 @@ namespace net
     class HttpRequest
     {
     public:
-        HttpRequest(Stream* stream, const char* clientIP);
+        HttpRequest(Stream* stream, std::string_view clientIP);
         virtual ~HttpRequest();
 
         std::string method() const;

@@ -10,7 +10,7 @@
 #include <sstream>
 #include <algorithm>
 
-net::HttpRequest::HttpRequest(Stream* stream, const char* clientIP)
+net::HttpRequest::HttpRequest(Stream* stream, std::string_view clientIP)
 {
     _isValid = true;
     _hasCredentials = false;
