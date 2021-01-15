@@ -113,7 +113,7 @@ void net::FileServer::serve401Unauthorized()
 
 void net::FileServer::serveFile(const std::filesystem::path& path)
 {
-    std::string mediaType = mimeType(path.u8string().c_str());
+    std::string mediaType = mimeType(path);
     std::ifstream fs;
     fs.open(path, std::ios_base::binary | std::ios::ate);
     if (fs)
