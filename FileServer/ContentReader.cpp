@@ -16,8 +16,7 @@ net::ContentReader::ContentReader(InputStream* stream, int contentLength, bool c
 {
     auto maxContentLength = std::numeric_limits<decltype(_remaining)>::max();
     _stream = stream;
-	_contentLengthValid = contentLengthValid;
-    _remaining = _contentLengthValid ? contentLength : maxContentLength;
+    _remaining = contentLengthValid ? contentLength : maxContentLength;
     _buffSize = (int)sizeof(_buff);
 }
 

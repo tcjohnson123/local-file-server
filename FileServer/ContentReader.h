@@ -22,7 +22,6 @@ namespace net
 
     private:
         InputStream* _stream;
-        bool _contentLengthValid;
         char _buff[4096];
         int _buffSize;
         int _remaining;
