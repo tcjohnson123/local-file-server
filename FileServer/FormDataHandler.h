@@ -9,7 +9,7 @@ namespace net
     class FormDataHandler
     {
     public:
-        virtual void addDataPair(std::string_view name, std::string_view value) = 0;
-        virtual std::unique_ptr<UploadHandler> createUploadHandler(std::string_view elementId, std::string_view fname) = 0;
+        virtual void addDataPair(const std::string& name, const std::string& value) = 0;
+        virtual std::unique_ptr<UploadHandler> createUploadHandler(const std::string& id, const std::string& fname) = 0;
     };
 }

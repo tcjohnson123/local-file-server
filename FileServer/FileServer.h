@@ -18,8 +18,8 @@ namespace net
         FileServer();
         virtual ~FileServer();
 
-        void addDataPair(std::string_view name, std::string_view value) override;
-        std::unique_ptr<UploadHandler> createUploadHandler(std::string_view elementId, std::string_view fname) override;
+        void addDataPair(const std::string& name, const std::string& value) override;
+        std::unique_ptr<UploadHandler> createUploadHandler(const std::string& id, const std::string& fname) override;
 
         void handleRequest(const HttpRequest& request);
 

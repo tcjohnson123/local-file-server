@@ -5,10 +5,38 @@
 #include "MultipartFormDataParser.h"
 #include "UrlEncodedFormDataParser.h"
 #include "ContentReader.h"
+
+#include "FormDataHandler.h"
+#include "FormData.h"
+#include "FileUploadHandler.h"
+
 #include <vector>
 #include <string>
 #include <sstream>
 #include <algorithm>
+
+namespace net
+{
+    class FormDataManager : public FormDataHandler
+    {
+    public:
+        void addDataPair(const std::string& name, const std::string& value) override
+        {
+            formData.values[std::string(name)] = value;
+        }
+
+        std::unique_ptr<UploadHandler> createUploadHandler(const std::string& id, const std::string& fname) override
+        {
+            auto handler = std::make_unique<net::FileUploadHandler>(id, fname);
+            UploadedFile uploadedFile{ handler->tempName(), std::string(fname) };
+            formData.files[id] = uploadedFile;
+            return handler;
+        }
+
+    public:
+        FormData formData;
+    };
+}
 
 net::HttpRequest::HttpRequest(Stream* stream, std::string_view clientIP)
 {
