@@ -3,6 +3,7 @@
 #include "ContentReader.h"
 #include "Stream.h"
 #include <algorithm>
+#include <limits>
 
 net::ContentChunk::operator bool() const
 {
@@ -13,42 +14,29 @@ net::ContentChunk::operator bool() const
 
 net::ContentReader::ContentReader(InputStream* stream, int contentLength, bool contentLengthValid)
 {
-	_stream = stream;
-	_contentLength = contentLength;
+    auto maxContentLength = std::numeric_limits<decltype(_remaining)>::max();
+    _stream = stream;
 	_contentLengthValid = contentLengthValid;
-    _remaining = _contentLength;
+    _remaining = _contentLengthValid ? contentLength : maxContentLength;
     _buffSize = (int)sizeof(_buff);
-    _finished = false;
 }
 
 net::ContentChunk net::ContentReader::readChunk()
 {
-    if (_contentLengthValid)
+    if (_remaining > 0)
     {
-        // Read until the total number of bytes read matches the contentLength.
-        if (!_finished && _remaining > 0)
+        int n = _stream->receive(_buff, std::min(_buffSize, _remaining));
+        if (n > 0)
         {
-            int n = _stream->receive(_buff, std::min(_buffSize, _remaining));
-            if (n > 0)
-            {
-                _remaining -= n;
-                return { _buff, n };
-            }
+            _remaining -= n;
+            return { _buff, n };
+        }
+        else
+        {
+            // Client connection has closed, indicating the end of the content. 
+            _remaining = 0;
         }
     }
-    else
-    {
-        // Read until the client closes the connection.
-        if (!_finished)
-        {
-            int n = _stream->receive(_buff, _buffSize);
-            if (n > 0)
-            {
-                _remaining -= n;
-                return { _buff, n };
-            }
-        }
-    }
-    _finished = true;
-    return { _buff, 0 };
+    // Return an empty chunk to indicate that there are no more chunks to follow.  
+    return { _buff, 0 }; 
 }

@@ -22,11 +22,9 @@ namespace net
 
     private:
         InputStream* _stream;
-        int _contentLength;
         bool _contentLengthValid;
         char _buff[4096];
         int _buffSize;
         int _remaining;
-        bool _finished;
     };
 }
