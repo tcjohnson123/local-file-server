@@ -4,6 +4,14 @@
 #include <winsock2.h>
 #include <Ws2tcpip.h>
 
+static std::vector<WCHAR> wideString(const char* utf8String)
+{
+    int cc = MultiByteToWideChar(CP_UTF8, 0, utf8String, -1, NULL, 0);
+    std::vector<WCHAR> data(cc);
+    MultiByteToWideChar(CP_UTF8, 0, utf8String, -1, &data[0], cc);
+    return data;
+}
+
 class net::EndPointImpl
 {
 public:
