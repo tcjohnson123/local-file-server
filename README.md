@@ -21,6 +21,6 @@ Open a console at the top level of the repo.  Then type:
 ```
 mkdir build
 cd build
-cmake ..
+cmake -DCMAKE_BUILD_TYPE=Release .
 make
 ```
