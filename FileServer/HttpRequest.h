@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Stream.h"
+#include "FormData.h"
 #include <string>
 #include <list>
 #include <map>
@@ -26,6 +27,7 @@ namespace net
         std::string password() const;
         bool decodeFormData(FormDataHandler* handler) const;
         std::string readPostData() const;
+        FormData readFormData() const;
         int contentLength() const;
         bool contentLengthValid() const;
         std::string boundary() const;

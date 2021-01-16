@@ -12,14 +12,11 @@ namespace net
     class StreamWriter;
     class UploadHandler;
 
-    class FileServer : public FormDataHandler
+    class FileServer
     {
     public:
         FileServer();
         virtual ~FileServer();
-
-        void addDataPair(const std::string& name, const std::string& value) override;
-        std::unique_ptr<UploadHandler> createUploadHandler(const std::string& id, const std::string& fname) override;
 
         void handleRequest(const HttpRequest& request);
 
@@ -34,8 +31,6 @@ namespace net
 
     private:
         std::unique_ptr<StreamWriter> _streamWriter;
-        std::map<std::string, std::string> _post;
-        UploadedFile _uploadedFile;
     };
 }
 

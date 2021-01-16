@@ -186,6 +186,13 @@ std::string net::HttpRequest::readPostData() const
     return ss.str();
 }
 
+net::FormData net::HttpRequest::readFormData() const
+{
+    FormDataManager formDataManager;
+    decodeFormData(&formDataManager);
+    return formDataManager.formData;
+}
+
 void net::HttpRequest::parseContentTypeHeader()
 {
     auto contentLengthHeader = getHeader("content-length");

@@ -25,12 +25,12 @@ void net::FileServer::handleRequest(const HttpRequest& request)
 
     if (request.hasFormData())
     {
-        request.decodeFormData(this);
-        if (!_uploadedFile.fileName.empty())
+        auto formData = request.readFormData();
+        for (const auto& [id, file] : formData.files)
         {
-            std::string dest = _post["path"] + _uploadedFile.fileName;
-            std::filesystem::rename(_uploadedFile.tempName, std::filesystem::u8path(dest));
-            serveString("302 Found", "", { "Location: " + _post["path"] });
+            std::string dest = formData.values["path"] + file.fileName;
+            std::filesystem::rename(file.tempName, std::filesystem::u8path(dest));
+            serveString("302 Found", "", { "Location: " + formData.values["path"] });
             return;
         }
     }
@@ -179,16 +179,3 @@ void net::FileServer::serveDirectory(const std::filesystem::path& path)
     serveString("200 OK", body.str());
 }
 
-void net::FileServer::addDataPair(const std::string& name, const std::string& value)
-{
-    _post[name] = value;
-}
-
-std::unique_ptr<net::UploadHandler> net::FileServer::createUploadHandler(const std::string& id,
-    const std::string& fname)
-{
-    auto handler = std::make_unique<net::FileUploadHandler>(id, fname);
-    _uploadedFile.fileName = fname;
-    _uploadedFile.tempName = handler->tempName();
-    return handler;
-}
