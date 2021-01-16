@@ -8,6 +8,7 @@
 namespace net
 {
     class FormDataHandler;
+    class UploadHandler;
 
     class MultipartFormDataParser : public FormDataParser
     {
@@ -21,8 +22,8 @@ namespace net
         void endOfStream() override;
 
     private:
-        void processChunk(char* chunk, size_t size);
-        bool isBoundary(char* chunk, size_t size);
+        void processChunk(char* chunk, int size);
+        bool isBoundary(char* chunk, int size);
         void closeStream();
         void processChar(char ch);
 
@@ -34,7 +35,7 @@ namespace net
         std::string _boundary;
         bool _isFile;
         std::string _name;
-        std::unique_ptr<std::ofstream> _fs;
+        std::unique_ptr<UploadHandler> _fs;
         int _numWrites;
     };
 }

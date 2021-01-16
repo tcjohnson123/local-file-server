@@ -158,6 +158,7 @@
   <ItemGroup>
     <ClCompile Include="ContentReader.cpp" />
     <ClCompile Include="FileServer.cpp" />
+    <ClCompile Include="FileUploadHandler.cpp" />
     <ClCompile Include="FormDataParser.cpp" />
     <ClCompile Include="HttpRequest.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -178,6 +179,7 @@
   <ItemGroup>
     <ClInclude Include="ContentReader.h" />
     <ClInclude Include="FileServer.h" />
+    <ClInclude Include="FileUploadHandler.h" />
     <ClInclude Include="HttpRequest.h" />
     <ClInclude Include="MultipartFormDataParser.h" />
     <ClInclude Include="pch.h" />
@@ -191,6 +193,7 @@
     <ClInclude Include="StreamWriter.h" />
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="UploadedFile.h" />
+    <ClInclude Include="UploadHandler.h" />
     <ClInclude Include="UrlEncodedFormDataParser.h" />
     <ClInclude Include="WebServer.h" />
   </ItemGroup>

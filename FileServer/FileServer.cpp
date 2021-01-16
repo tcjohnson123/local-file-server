@@ -4,10 +4,11 @@
 #include "HttpRequest.h"
 #include "StreamWriter.h"
 #include "StringUtils.h"
+#include "FileUploadHandler.h"
 #include <sstream>
 #include <filesystem>
 #include <fstream>
-#include <ios>
+//#include <ios>
 
 net::FileServer::FileServer()
 {
@@ -183,12 +184,12 @@ void net::FileServer::addDataPair(std::string_view name, std::string_view value)
     _post[std::string(name)] = value;
 }
 
-std::unique_ptr<std::ofstream> net::FileServer::createStreamForUpload(std::string_view elementId,
+std::unique_ptr<net::UploadHandler> net::FileServer::createUploadHandler(std::string_view elementId,
     std::string_view fname)
 {
+    auto handler = std::make_unique<net::FileUploadHandler>(elementId, fname);
     std::ostringstream tempName;
-    tempName << "upload_" << StringUtils::randomString(8) << "_" << fname;
     _uploadedFile.fileName = fname;
-    _uploadedFile.tempName = std::filesystem::temp_directory_path() / std::filesystem::u8path(tempName.str());
-    return std::make_unique<std::ofstream>(_uploadedFile.tempName, std::ios_base::binary);
+    _uploadedFile.tempName = handler->tempName();
+    return handler;
 }

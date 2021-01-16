@@ -3,6 +3,7 @@
 #include "Property.h"
 #include "StringUtils.h"
 #include "FormDataHandler.h"
+#include "UploadHandler.h"
 #include <string>
 #include <list>
 #include <string.h>
@@ -43,8 +44,8 @@ void net::MultipartFormDataParser::processChar(char ch)
 
 void net::MultipartFormDataParser::closeStream()
 {
-    if (_fs && _fs->is_open())
-        _fs->close();
+    if (_fs)
+        _fs->endOfStream();
     _fs.reset();
 }
 
@@ -53,7 +54,7 @@ void net::MultipartFormDataParser::endOfStream()
     closeStream();
 }
 
-bool net::MultipartFormDataParser::isBoundary(char* chunk, size_t size)
+bool net::MultipartFormDataParser::isBoundary(char* chunk, int size)
 {
     auto boundaryLength = _boundary.length();
     if (size == boundaryLength + 2)
@@ -74,7 +75,7 @@ bool net::MultipartFormDataParser::isBoundary(char* chunk, size_t size)
     return false;
 }
 
-void net::MultipartFormDataParser::processChunk(char* chunk, size_t size)
+void net::MultipartFormDataParser::processChunk(char* chunk, int size)
 {
     if (_state == 0) // Waiting for boundary
     {
@@ -105,7 +106,7 @@ void net::MultipartFormDataParser::processChunk(char* chunk, size_t size)
                 {
                     _isFile = true;
                     _numWrites = 0;
-                    _fs = _handler->createStreamForUpload(_name, prop.value);
+                    _fs = _handler->createUploadHandler(_name, prop.value);
                 }
             }
         }
@@ -122,7 +123,7 @@ void net::MultipartFormDataParser::processChunk(char* chunk, size_t size)
         {
             if (_isFile)
             {
-                if (_fs && *_fs)
+                if (_fs)
                 {
                     if (_numWrites++ == 0)
                         _fs->write(chunk + 2, size - 2);
