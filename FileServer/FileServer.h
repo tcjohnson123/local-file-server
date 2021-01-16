@@ -18,7 +18,7 @@ namespace net
         FileServer();
         virtual ~FileServer();
 
-        void handleRequest(const HttpRequest& request);
+        void handleRequest(const HttpRequest& request, bool* keepAlive);
 
     private:
         static std::string mimeType(const std::filesystem::path& path);
@@ -28,9 +28,11 @@ namespace net
         void serve401Unauthorized();
         void serveFile(const std::filesystem::path& path);
         void serveDirectory(const std::filesystem::path& path);
+        std::string connectionStr() const;
 
     private:
         std::unique_ptr<StreamWriter> _streamWriter;
+        bool* _keepAlive;
     };
 }
 

@@ -7,6 +7,6 @@ namespace net
 	class RequestHandler
 	{
 	public:
-		virtual void handleRequest(const HttpRequest& request) = 0;
+		virtual void handleRequest(const HttpRequest& request, bool* keepAlive) = 0;
 	};
 }

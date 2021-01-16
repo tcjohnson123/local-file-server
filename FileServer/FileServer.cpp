@@ -19,8 +19,12 @@ net::FileServer::~FileServer()
     // Empty destructor prevents error about deletion of incomplete type. 
 }
 
-void net::FileServer::handleRequest(const HttpRequest& request)
+void net::FileServer::handleRequest(const HttpRequest& request, bool* keepAlive)
 {
+    _keepAlive = keepAlive;
+    if (request.getHeader("connection") == "keep-alive")
+        *_keepAlive = true;
+
     _streamWriter = std::make_unique<StreamWriter>(request.stream());
 
     if (request.hasFormData())
@@ -90,7 +94,7 @@ void net::FileServer::serveString(std::string_view status, std::string_view body
 {
     std::stringstream ss;
     ss << "HTTP/1.1 " << status << "\r\n";
-    ss << "Connection: close\r\n";
+    ss << "Connection: " << connectionStr() << "\r\n";
     ss << "Content-Type: text/html; charset=utf-8\r\n";
     ss << "Content-Length: " << body.length() << "\r\n";
     ss << "Server: " << "DemoServer\r\n";
@@ -124,7 +128,7 @@ void net::FileServer::serveFile(const std::filesystem::path& path)
 
         std::stringstream ss;
         ss << "HTTP/1.1 200 OK\r\n";
-        ss << "Connection: close\r\n";
+        ss << "Connection: " << connectionStr() << "\r\n";
         ss << "Content-Type: " << mediaType << "; charset=utf-8\r\n";
         ss << "Content-Length: " << sz << "\r\n";
         ss << "Server: " << "DemoServer\r\n";
@@ -179,3 +183,7 @@ void net::FileServer::serveDirectory(const std::filesystem::path& path)
     serveString("200 OK", body.str());
 }
 
+std::string net::FileServer::connectionStr() const
+{
+    return *_keepAlive ? "keep-alive" : "close";
+}

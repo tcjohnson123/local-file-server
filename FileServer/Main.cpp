@@ -10,10 +10,10 @@ namespace net
     class FileRequestHandler : public RequestHandler
     {
     public:
-        void handleRequest(const HttpRequest& request) override
+        void handleRequest(const HttpRequest& request, bool* keepAlive) override
         {
             FileServer fileServer;
-            fileServer.handleRequest(request);
+            fileServer.handleRequest(request, keepAlive);
         }
     };
 }

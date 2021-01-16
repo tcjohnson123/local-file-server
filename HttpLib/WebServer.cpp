@@ -10,8 +10,13 @@
 
 static void clientThreadFn(net::Socket socket, const std::string& clientIP, net::RequestHandler& handler)
 {
-    net::HttpRequest request(&socket, clientIP);
-    handler.handleRequest(request);
+    bool keepAlive;
+    do
+    {
+        keepAlive = false;
+        net::HttpRequest request(&socket, clientIP);
+        handler.handleRequest(request, &keepAlive);
+    } while (keepAlive);
 
     // Force the client to close the connection
     char dummy[256];
