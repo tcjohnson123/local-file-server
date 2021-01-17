@@ -127,7 +127,7 @@ int net::Socket::receive(char* buf, int len)
 int net::Socket::receiveFrom(char* buf, int len, EndPoint* sourceAddress)
 {
     int flags = 0;
-    int fromLen = sizeof(sourceAddress->pImpl->sa);
+    socklen_t fromLen = (socklen_t)sizeof(sourceAddress->pImpl->sa);
     return ::recvfrom(pImpl->s, buf, len, flags, (struct sockaddr*)&sourceAddress->pImpl->sa, &fromLen);
 }
 
