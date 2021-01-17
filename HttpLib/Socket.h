@@ -50,8 +50,9 @@ namespace net
 		bool close();
 		Socket accept(EndPoint* clientIP = nullptr);
 		int send(const char* buf, int len) override;
-		int sendTo(const char* buf, int len, const EndPoint& endPoint);
 		int receive(char* buf, int len) override;
+		int sendTo(const char* buf, int len, const EndPoint& endPoint);
+		int receiveFrom(char* buf, int len, EndPoint* sourceAddress);
 		EndPoint endPoint() const;
 
 	private:

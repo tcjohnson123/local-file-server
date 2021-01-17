@@ -144,6 +144,13 @@ int net::Socket::sendTo(const char* buf, int len, const EndPoint& endPoint)
     return ::sendto(pImpl->s, buf, len, flags, (SOCKADDR*)&endPoint.pImpl->sa, sizeof(endPoint.pImpl->sa));
 }
 
+int net::Socket::receiveFrom(char* buf, int len, EndPoint* sourceAddress)
+{
+    int flags = 0;
+    int fromLen = sizeof(sourceAddress->pImpl->sa);
+    return ::recvfrom(pImpl->s, buf, len, flags, (SOCKADDR*)&sourceAddress->pImpl->sa, &fromLen);
+}
+
 net::EndPoint net::Socket::endPoint() const
 {
     net::EndPoint endPoint;
