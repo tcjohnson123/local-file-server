@@ -124,6 +124,12 @@ int net::Socket::receive(char* buf, int len)
     return ::recv(pImpl->s, buf, len, flags);
 }
 
+int net::Socket::receiveFrom(char* buf, int len, EndPoint* sourceAddress)
+{
+    int flags = 0;
+    int fromLen = sizeof(sourceAddress->pImpl->sa);
+    return ::recvfrom(pImpl->s, buf, len, flags, (struct sockaddr*)&sourceAddress->pImpl->sa, &fromLen);
+}
 
 std::vector<std::string> net::Socket::getHostByName(const char* hostName)
 {
