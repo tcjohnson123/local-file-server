@@ -131,6 +131,15 @@ int net::Socket::receiveFrom(char* buf, int len, EndPoint* sourceAddress)
     return ::recvfrom(pImpl->s, buf, len, flags, (struct sockaddr*)&sourceAddress->pImpl->sa, &fromLen);
 }
 
+net::EndPoint net::Socket::endPoint() const
+{
+    net::EndPoint endPoint;
+    socklen_t nameLen = (int)sizeof(endPoint.pImpl->sa);
+    //int getsockname(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+    ::getsockname(pImpl->s, (struct sockaddr*)&endPoint.pImpl->sa, &nameLen);
+    return endPoint;
+}
+
 std::vector<std::string> net::Socket::getHostByName(const char* hostName)
 {
     std::vector<std::string> hosts;
