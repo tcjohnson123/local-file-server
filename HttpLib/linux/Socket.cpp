@@ -124,6 +124,12 @@ int net::Socket::receive(char* buf, int len)
     return ::recv(pImpl->s, buf, len, flags);
 }
 
+int net::Socket::sendTo(const char* buf, int len, const EndPoint& endPoint)
+{
+    int flags = 0;
+    return ::sendto(pImpl->s, buf, len, flags, (struct sockaddr*)&endPoint.pImpl->sa, sizeof(endPoint.pImpl->sa));
+}
+
 int net::Socket::receiveFrom(char* buf, int len, EndPoint* sourceAddress)
 {
     int flags = 0;
