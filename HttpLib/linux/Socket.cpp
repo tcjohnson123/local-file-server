@@ -59,6 +59,8 @@ net::Socket::Socket(Protocol proto) : pImpl(std::make_shared<SocketImpl>())
 {
     if (proto == Protocol::TCP)
         pImpl->s = socket(AF_INET, SOCK_STREAM, 0);
+    else if (proto == Protocol::UDP)
+        pImpl->s = socket(AF_INET, SOCK_DGRAM, 0);
     else
         pImpl->s = -1;
 }
