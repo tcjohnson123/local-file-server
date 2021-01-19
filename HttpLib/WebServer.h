@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 namespace net
 {
 	class RequestHandler;
@@ -8,7 +10,7 @@ namespace net
 	{
 	public:
 		WebServer(RequestHandler& handler);
-		bool start();
+		bool start(const std::string& ip, int port);
 
 	private:
 		RequestHandler& _handler;

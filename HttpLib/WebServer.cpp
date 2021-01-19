@@ -29,10 +29,11 @@ net::WebServer::WebServer(RequestHandler& handler) : _handler(handler)
 {
 }
 
-bool net::WebServer::start()
+bool net::WebServer::start(const std::string& ip, int port)
 {
     Socket socket(Protocol::TCP);
-    socket.bind(EndPoint("0.0.0.0", 8080));
+    net::EndPoint endPoint(ip.c_str(), port);
+    socket.bind(endPoint);
     bool rc = socket.listen();
 
     while (true)
