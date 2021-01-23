@@ -15,7 +15,7 @@ namespace net
     class FileServer
     {
     public:
-        FileServer();
+        FileServer(const std::filesystem::path& rootFolder);
         virtual ~FileServer();
 
         void handleRequest(const HttpRequest& request, bool* keepAlive);
@@ -33,6 +33,7 @@ namespace net
     private:
         std::unique_ptr<StreamWriter> _streamWriter;
         bool* _keepAlive;
+        std::filesystem::path _rootFolder;
     };
 }
 

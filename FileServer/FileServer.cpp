@@ -8,10 +8,11 @@
 #include <sstream>
 #include <filesystem>
 #include <fstream>
-//#include <ios>
+#include <iostream>
 
-net::FileServer::FileServer()
+net::FileServer::FileServer(const std::filesystem::path& rootFolder)
 {
+    _rootFolder = rootFolder;
 }
 
 net::FileServer::~FileServer()
@@ -39,8 +40,12 @@ void net::FileServer::handleRequest(const HttpRequest& request, bool* keepAlive)
         }
     }
 
-    std::string uri = std::string(".") + request.uri();
-    auto path = std::filesystem::u8path(uri);
+    // Remove forward slash from HTTP request path.
+    std::string resourceName = request.uri();
+    if (resourceName.length() > 0 && resourceName[0] == '/')
+        resourceName = resourceName.substr(1);
+
+    auto path = _rootFolder / std::filesystem::u8path(resourceName);
     if (std::filesystem::is_directory(path))
     {
         //if (request.getHeader("authorization") == "")
