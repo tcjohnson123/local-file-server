@@ -8,7 +8,6 @@
 #include <sstream>
 #include <filesystem>
 #include <fstream>
-#include <iostream>
 
 net::FileServer::FileServer(const std::filesystem::path& rootFolder)
 {
@@ -33,6 +32,7 @@ void net::FileServer::handleRequest(const HttpRequest& request, bool* keepAlive)
         auto formData = request.readFormData();
         for (const auto& [id, file] : formData.files)
         {
+            auto path = formData.values["path"];
             std::string dest = formData.values["path"] + file.fileName;
             std::filesystem::rename(file.tempName, std::filesystem::u8path(dest));
             serveString("302 Found", "", { "Location: " + formData.values["path"] });
