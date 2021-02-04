@@ -191,3 +191,9 @@ std::vector<std::string> net::Socket::getHostByName(const char* hostName)
 
     return hosts;
 }
+
+bool net::Socket::connect(const EndPoint& endPoint)
+{
+    int rc = ::connect(pImpl->s, (struct sockaddr*)&endPoint.pImpl->sa, sizeof(endPoint.pImpl->sa));
+    return (rc == 0);
+}

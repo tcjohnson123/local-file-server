@@ -54,6 +54,7 @@ namespace net
 		int sendTo(const char* buf, int len, const EndPoint& endPoint);
 		int receiveFrom(char* buf, int len, EndPoint* sourceAddress);
 		EndPoint endPoint() const;
+		bool connect(const EndPoint& endPoint);
 
 	private:
 		std::shared_ptr<SocketImpl> pImpl;
