@@ -4,6 +4,7 @@
 #include "RequestHandler.h"
 #include "WebServer.h"
 #include <iostream>
+#include <string.h>
 
 namespace net
 {
