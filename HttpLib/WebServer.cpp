@@ -19,8 +19,8 @@ static void clientThreadFn(net::Socket socket, const std::string& clientIP, net:
     } while (keepAlive);
 
     // Force the client to close the connection
-    char dummy[256];
-    int nb = socket.receive(dummy, sizeof(dummy));
+    //char dummy[256];
+    //int nb = socket.receive(dummy, sizeof(dummy));
 
     socket.close();
 }
