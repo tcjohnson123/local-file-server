@@ -46,9 +46,7 @@ bool net::WebServer::start(const std::string& ip, int port)
             perror("accept() error");
         }
 
-        std::thread clientThread(
-            [=]() {clientThreadFn(client, clientIP, _handler);}
-        );
+        std::thread clientThread(clientThreadFn, client, std::ref(clientIP), std::ref(_handler));
         clientThread.detach();
     }
 
